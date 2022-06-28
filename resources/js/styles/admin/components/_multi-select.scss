@@ -1,0 +1,82 @@
+.selector {
+    .selector-available {
+        margin-bottom: 5px;
+
+        select {
+            height: 242px;
+            border-radius: 0;
+        }
+    }
+
+    .selector-chooser {
+
+        //background-color: #e4e4e4;
+        border-radius: 10px;
+        margin: 10em 5px 0 5px;
+        padding: 0;
+
+        li {
+            list-style: none;
+            margin: 0;
+            padding: 3px;
+
+            i {
+                cursor: pointer;
+
+                &:hover {
+                    color: #036;
+                }
+            }
+        }
+
+        @include media-breakpoint-down(md) {
+            margin: 0 45% 0 43%;
+            width: auto;
+            display: flex;
+            li:first-child {
+                i {
+                    transform: rotate(90deg);
+                }
+            }
+            li:last-child {
+                i {
+                    transform: rotate(90deg);
+                }
+            }
+        }
+
+    }
+
+    .selector-chosen {
+
+        select {
+            height: 289px;
+            border-radius: 0;
+        }
+
+    }
+
+}
+
+.multiselect {
+    .card-header {
+        padding: 6px;
+        color: lighten(#000, 53%);
+    }
+
+    .card-search {
+        padding: 7px;
+
+        .input-group-joined {
+            border-radius: 1px;
+        }
+    }
+
+    .card-body {
+        padding: 0;
+    }
+
+    .card-footer {
+        padding: 3px;
+    }
+}

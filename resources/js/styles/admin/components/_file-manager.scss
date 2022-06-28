@@ -1,0 +1,50 @@
+.file-filed {
+    .card {
+        width: 12rem;
+        height: 12rem;
+
+        .card-body {
+            .preview {
+                height: 11.4rem;
+                width: 100%;
+                background-repeat: no-repeat;
+                background-origin: inherit;
+                background-size: cover;
+            }
+        }
+
+        .card-text {
+            font-size: 10px;
+        }
+    }
+
+    margin-bottom: 15px;
+    position: relative;
+
+    .reset-field {
+        position: absolute;
+        bottom: 0;
+    }
+}
+
+.file-card {
+    height: 10rem;
+    width: 10rem;
+    overflow: hidden;
+    cursor: pointer;
+
+    .file-name {
+        position: absolute;
+        bottom: 0;
+        text-align: center;
+        background: rgb(0, 0, 0);
+        background: rgba(0, 0, 0, 0.5);
+        color: #f1f1f1;
+        width: 100%;
+        margin-bottom: 0 !important;
+    }
+
+    &.selected {
+        border: 4px solid red;
+    }
+}

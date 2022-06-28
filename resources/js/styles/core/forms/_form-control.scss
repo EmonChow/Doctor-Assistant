@@ -1,0 +1,38 @@
+// Custom form control solid component
+//
+// Append the .form-control-solid class to a .form-control input
+// to get a solid styling for the input
+
+.form-control-solid {
+    background-color: $input-solid-bg;
+    border-color: $input-solid-border-color;
+
+    &:focus {
+        background-color: $input-solid-bg;
+    }
+}
+
+.form-control, .form-select {
+    padding: 0.375rem 0.75rem !important;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+
+    &:focus + .btn-eye {
+        color: lighten($black, 40%);
+    }
+}
+
+.password-field {
+    position: relative;
+
+    & .btn-eye {
+        position: absolute;
+        right: 14px;
+        top: 38px;
+        border: none;
+        outline: none;
+        background: transparent;
+        color: lighten($black, 60%);
+    }
+}
