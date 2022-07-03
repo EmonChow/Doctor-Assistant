@@ -26,6 +26,7 @@ const routes = [
  *
  * @type {Router}
  */
+
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     linkActiveClass: 'active',
@@ -37,6 +38,11 @@ const router = createRouter({
  */
 router.afterEach((to, from) => {
     document.title = to.meta?.title
+})
+
+router.beforeEach((to, from, next) => {
+    window.scrollTo(0, 0)
+    next()
 })
 
 export default router

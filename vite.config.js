@@ -13,10 +13,11 @@ export default defineConfig({
     rollupOutputOptions: {
         entryFileNames: '[name].js',
     },
-    alias: {
-        "@": path.resolve(__dirname, "./resources/js")
-    },
     resolve: {
         extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
+        alias: {
+            "@": path.resolve(__dirname, "./resources/js"),
+            '~': path.resolve(__dirname, "./node_modules")
+        }
     }
 })
