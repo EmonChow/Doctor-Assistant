@@ -15,6 +15,13 @@ use Illuminate\Support\Str;
 
 class PasswordResetController extends Controller
 {
+
+    public function forgotPassword(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+        // TODO need to generate token
+    }
+
     /**
      * @param Request $request
      * @return JsonResponse
@@ -43,7 +50,11 @@ class PasswordResetController extends Controller
         return response()->json($status);
     }
 
-    public function changePassword(ChangePasswordRequest $request)
+    /**
+     * @param ChangePasswordRequest $request
+     * @return JsonResponse
+     */
+    public function changePassword(ChangePasswordRequest $request): JsonResponse
     {
         $request->validate([
             'current_password' => ['required', new MatchCurrentPassword()],

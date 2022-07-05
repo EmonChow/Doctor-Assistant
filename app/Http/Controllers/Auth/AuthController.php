@@ -29,6 +29,7 @@ class AuthController extends Controller
         $credentials = $request->only(['email', 'password']);
         if (Auth::attempt($credentials)) {
             $user = User::where('email', $request->email)->firstOrFail();
+            // TODO : Store Device Store
             return response()->json($user->createToken('my_token', ["*"])->plainTextToken);
         }
         return response()->json(['message' => 'The given data was invalid.',

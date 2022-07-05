@@ -29,7 +29,7 @@ class CreatePermissionTables extends Migration
             $table->bigIncrements('id');
             $table->string('name');       // For MySQL 8.0 use string('name', 125);
             $table->string('label')->nullable();
-            $table->string('icon')->default('☀');
+            $table->string('icon')->default('fa-solid fa-bars');
             $table->text('description')->nullable();
             $table->boolean('sidebar_menu')->default(false);
             $table->string('url')->nullable();
