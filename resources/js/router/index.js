@@ -1,6 +1,8 @@
 import {createRouter, createWebHistory} from "vue-router";
 import websiteRoutes from "./website";
 import authRoutes from "./auth";
+import store from "../store";
+import dashboardRoutes from "./dashboard";
 
 /**
  * Main Route File
@@ -16,7 +18,22 @@ const routes = [
     {
         path: '/auth',
         component: () => import('../views/auth/Layout'),
-        children: authRoutes
+        children: authRoutes,
+        meta: {
+            guard: 'guest'
+        }
+    },
+    {
+        path: '/dashboard',
+        component: () => import('../views/dashboard/Layout'),
+        children: dashboardRoutes,
+        meta: {
+            guard: 'auth'
+        },
+    },
+    {
+        path: '/:catchAll(.*)',
+        component: () => import('../views/errors/NotFound')
     }
 ]
 
@@ -37,12 +54,26 @@ const router = createRouter({
  * Set Document Title after each route
  */
 router.afterEach((to, from) => {
-    document.title = to.meta?.title
+    document.title = to.meta?.title + ` - ${import.meta.env.VITE_APP_NAME}`
 })
 
 router.beforeEach((to, from, next) => {
     window.scrollTo(0, 0)
-    next()
+    if (to.matched.some(record => record.meta.guard === 'auth')) {
+        if (store.state.auth_token == null) {
+            next({path: '/auth/login'})
+        } else {
+            next()
+        }
+    } else if (to.matched.some(record => record.meta.guard === 'guest')) {
+        if (store.state.auth_token == null) {
+            next()
+        } else {
+            next({name: 'dashboard'})
+        }
+    } else {
+        next()
+    }
 })
 
 export default router

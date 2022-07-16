@@ -16,7 +16,10 @@ class RoleAndPermissionsSeeder extends Seeder
      */
     public function run()
     {
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        /**
+         * Role Block
+         */
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions(); // forget cached permissions
         $super_admin = Role::create(['name' => 'Super Admin']);
         /**
          * use $this->generatePermission($name, $args = []) to generate permission array
@@ -27,7 +30,7 @@ class RoleAndPermissionsSeeder extends Seeder
          *      'icon'=> 'fontawesome icon class',
          *      'url' => '/font-end-url',
          *      'sidebar_menu'=> 1|0,
-         *      'guard_name'=> 'sanctum|web|session',
+         *      'guard_name'=> 'sanctum|web|session', # use sanctum
          *      'description': 'Description',
          *      'label': 'Label'
          * ]
@@ -39,11 +42,18 @@ class RoleAndPermissionsSeeder extends Seeder
          */
 
         $permissions = collect();
-        $permissions->push($this->generatePermission('dashboard', []));
+        $permissions->push($this->generatePermission('dashboard', ['icon' => 'fas fa-home']));
+        $permissions->push($this->generatePermission('file-manager', ['url' => '/settings/file-manager', 'icon' => 'fas fa-folder', 'label' => 'File Manager']));
+        $permissions->push(...$this->generatePermissionCRUD('role', ['url' => '/roles']));
+        $permissions->push(...$this->generatePermissionCRUD('user', ['url' => '/users']));
+        // TODO: Additional permissions will be written here
 
-        $permissions->push(...$this->generatePermissionCRUD('user', ['url' => '/user']));
 
-        dd($permissions);
+        Permission::insert($permissions->toArray());
+
+        $this->call([
+            SideNavSeeder::class
+        ]);
 
     }
 
@@ -53,7 +63,7 @@ class RoleAndPermissionsSeeder extends Seeder
             'name' => $name,
             'icon' => array_key_exists('icon', func_get_args()[1]) ? func_get_args()[1]['icon'] : 'fas fa-bars',
             'url' => array_key_exists('url', func_get_args()[1]) ? func_get_args()[1]['url'] : "/" . Str::slug($name),
-            'sidebar_menu' => array_key_exists('sidebar_menu', func_get_args()[1]) ? func_get_args()[1]['sidebar_menu'] : 0,
+            'sidebar_menu' => array_key_exists('sidebar_menu', func_get_args()[1]) ? func_get_args()[1]['sidebar_menu'] : 1,
             'guard_name' => array_key_exists('guard_name', func_get_args()[1]) ? func_get_args()[1]['guard_name'] : 'sanctum',
             'description' => array_key_exists('description', func_get_args()[1]) ? func_get_args()[1]['description'] : '',
             'label' => array_key_exists('label', func_get_args()[1]) ? func_get_args()[1]['label'] : Str::title($name),

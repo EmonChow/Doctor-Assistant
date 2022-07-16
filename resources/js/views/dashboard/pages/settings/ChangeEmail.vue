@@ -12,17 +12,20 @@
 
             <div class="col-xl-6">
                 <!-- Account details card-->
-                <sb-form :fields="fields" url="/change-email"/>
+                <sb-form :fields="fields" url="/change-email" :axios="axios"/>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import apiService from "../../../../services/apiService";
+
 export default {
     name: "ChangeEmail",
     data() {
         return {
+            axios: apiService,
             fields: {
                 email: {
                     label: 'New Email'

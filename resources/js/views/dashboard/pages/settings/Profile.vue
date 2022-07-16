@@ -12,17 +12,20 @@
 
             <div class="col-xl-6">
                 <!-- Account details card-->
-                <sb-form :fields="fields" url="/profile" :resetForm="false"/>
+                <sb-form :fields="fields" url="/profile" :resetForm="false" :axios="axios"/>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import apiService from "../../../../services/apiService";
+
 export default {
     name: "Profile",
     data() {
         return {
+            axios: apiService,
             fields: {
                 photo: {
                     label: 'Profile Photo',

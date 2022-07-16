@@ -5,6 +5,7 @@ import SbForm from "sb-form";
 import App from './App.vue'
 
 import './styles/styles.scss'
+import 'sb-form/dist/style.css'
 import Header from "./components/sb-header/Header";
 import store from "./store";
 import router from "./router";
@@ -29,4 +30,4 @@ app.use(router).use(VueProgressBar, vueProgressBarOption).use(store)
  * Exporting vue app, so it can be use else ware in the application
  * where we might need to reload the app forcefully
  */
-app.mount('#app')
+export default app.mount('#app')

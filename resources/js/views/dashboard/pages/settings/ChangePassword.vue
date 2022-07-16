@@ -12,17 +12,20 @@
 
             <div class="col-xl-6">
                 <!-- Account details card-->
-                <sb-form :fields="fields" url="/change-password"/>
+                <sb-form :fields="fields" url="/change-password" :axios="axios"/>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import apiService from "../../../../services/apiService";
+
 export default {
     name: "ChangePassword",
     data() {
         return {
+            axios: apiService,
             fields: {
                 password: {
                     label: 'New Password',

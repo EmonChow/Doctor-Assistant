@@ -8,7 +8,7 @@
         </div>
         <div class="card-footer">
             Back to
-            <router-link :to="{name: 'login'}">Login</router-link>
+            <router-link :to="{name: 'auth.login'}">Login</router-link>
         </div>
     </div>
 </template>

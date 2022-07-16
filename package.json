@@ -10,7 +10,8 @@
     "dependencies": {
         "@aacassandra/vue3-progressbar": "^1.0.3",
         "axios": "^0.27.2",
-        "bootstrap": "^5.1.3",
+        "bootstrap": "^5.2.0-beta1",
+        "he-tree-vue": "^3.0.3",
         "sb-form": "^0.1.4",
         "toastr": "^2.1.4",
         "vue": "^3.2.25",

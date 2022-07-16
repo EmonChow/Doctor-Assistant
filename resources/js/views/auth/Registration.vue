@@ -1,26 +1,23 @@
 <template>
-<!--    <sb-form :fields="fields" url="/registration">-->
+    <sb-form :fields="fields" url="/registration" :axios="axios">
 
-<!--    </sb-form>-->
+    </sb-form>
 </template>
 
 <script>
-// import apiService from "../../services/apiService";
+import apiService from "../../services/apiService";
 
 export default {
     name: "Registration",
-    data() {
-        return {
-            fields: {
-                name: {
-                    label: 'Full Name'
-                }
+    data: () => ({
+        axios: apiService,
+        fields: {
+            email: {
+                label: 'Email'
             }
         }
-    },
-    methods: {
-        // axios: () => apiService()
-    }
+    }),
+    methods: {}
 }
 </script>
 

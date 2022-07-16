@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\PasswordResetController;
+use App\Http\Controllers\FileManagerController;
+use \App\Http\Controllers\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,14 +31,18 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/change-email', [AuthController::class, 'changeEmailAddress']);
     Route::get('/get-current-user', [AuthController::class, 'currentUser']);
+    Route::post('/change-email', [AuthController::class, 'changeEmailAddress']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/change-password', [PasswordResetController::class, 'changePassword']);
 
+    Route::apiResource('role', RoleController::class);
+    Route::get('/permissions', [RoleController::class, 'getAllPermission']);
 
-});
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    // File Upload
+    Route::post('/file-upload', [FileManagerController::class, 'store']);
+    Route::get('/files', [FileManagerController::class, 'index']);
+
+
 });

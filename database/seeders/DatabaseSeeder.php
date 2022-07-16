@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,13 +15,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
 
         $this->call(RoleAndPermissionsSeeder::class);
+
+        //  Create Super Admin
+        User::factory(1)->create(['email' => 'admin@example.com', 'name' => 'Super Admin'])->each(function ($user) {
+            $user->assignRole('Super Admin');
+        });
     }
 }

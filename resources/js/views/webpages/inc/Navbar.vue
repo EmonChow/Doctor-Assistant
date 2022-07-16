@@ -16,7 +16,7 @@
 
                 <ul class="navbar-nav mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <router-link class="nav-link" :to="{name: 'login'}">Login</router-link>
+                        <router-link class="nav-link" :to="{name: 'auth.login'}">Login</router-link>
                     </li>
                 </ul>
 

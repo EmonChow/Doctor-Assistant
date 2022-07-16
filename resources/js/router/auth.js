@@ -1,8 +1,8 @@
-const   authRoutes = [
+const authRoutes = [
     {
         path: 'login',
         component: () => import('../views/auth/Login'),
-        name: 'login',
+        name: 'auth.login',
         meta: {
             title: 'Login'
         }
@@ -10,7 +10,7 @@ const   authRoutes = [
     {
         path: 'registration',
         component: () => import('../views/auth/Registration'),
-        name: 'registration',
+        name: 'auth.registration',
         meta: {
             title: 'Registration'
         }
@@ -18,7 +18,7 @@ const   authRoutes = [
     {
         path: 'forget-password',
         component: () => import('../views/auth/ForgetPassword'),
-        name: 'forgetPassword',
+        name: 'auth.forgetPassword',
         meta: {
             title: 'Forget Password'
         }
@@ -26,7 +26,7 @@ const   authRoutes = [
     {
         path: 'reset-password',
         component: () => import('../views/auth/ResetPassword'),
-        name: 'resetPassword',
+        name: 'auth.resetPassword',
         meta: {
             title: 'Reset Password'
         }

@@ -1,7 +1,11 @@
 const dashboardUserRoute = [
     {
         path: '/users',
-        component: () => import('./users/Users')
+        component: () => import('./users/Users'),
+        name: 'users',
+        meta: {
+            title: 'Users'
+        }
     },
     {
         path: '/user/:id',
@@ -10,20 +14,23 @@ const dashboardUserRoute = [
     },
     {
         path: '/create-user',
-        component: () => import('./users/CreateUser')
+        component: () => import('./users/CreateUser'),
+        name: 'createUser'
     },
     {
         path: '/roles',
-        component: () => import('./roles/Roles')
+        component: () => import('./roles/Roles'),
+        name: 'role'
     },
     {
         path: '/create-role',
-        component: () => import('./roles/CreateRole')
+        component: () => import('./roles/CreateRole'),
+        name: 'createRole'
     },
     {
         path: '/edit-role/:id',
         name: 'editRole',
-        component: () => import('./roles/EditRole')
+        component: () => import('./roles/EditRole'),
     },
 ]
 

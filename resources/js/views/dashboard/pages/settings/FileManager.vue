@@ -17,7 +17,7 @@
             </div>
 
             <div v-else>
-                <Dropzone call_back="addFile"/>
+<!--                <Dropzone call_back="addFile"/>-->
 
             </div>
         </div>
@@ -26,12 +26,12 @@
 
 <script>
 import axios from "../../../../services/apiService";
-import Dropzone from "../../../../components/dropzone/Dropzone";
+// import Dropzone from "../../../../components/dropzone/Dropzone";
 
 export default {
     name: "FileManager",
     components: {
-        Dropzone
+        // Dropzone
     },
     data() {
         return {
