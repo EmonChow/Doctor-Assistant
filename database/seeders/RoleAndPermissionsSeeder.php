@@ -3,11 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Role;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Permission;
 
@@ -22,6 +18,25 @@ class RoleAndPermissionsSeeder extends Seeder
     {
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
         $super_admin = Role::create(['name' => 'Super Admin']);
+        /**
+         * use $this->generatePermission($name, $args = []) to generate permission array
+         * it will take two arguments first one will be the name of the permission
+         * and second argument will take an array with icon, url, sidebar_menu, guard_name, description and label.
+         * ie: $name = 'permission name' : string
+         * ie: $args = [
+         *      'icon'=> 'fontawesome icon class',
+         *      'url' => '/font-end-url',
+         *      'sidebar_menu'=> 1|0,
+         *      'guard_name'=> 'sanctum|web|session',
+         *      'description': 'Description',
+         *      'label': 'Label'
+         * ]
+         *
+         * use $this->generatePermissionCRUD($name, $args = []) to generate permission array for CRUD
+         * it will generate 4 permissions Create, Read, Update delete by the name of create, update, show & delete
+         *
+         * this method will take the same arguments as $this->generatePermission()
+         */
 
         $permissions = collect();
         $permissions->push($this->generatePermission('dashboard', []));
