@@ -28,13 +28,13 @@ class RoleController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function store(RoleRequest $request): \Illuminate\Http\JsonResponse
+    public function store(RoleRequest $request)
     {
         DB::beginTransaction();
         try {
             $permissions = Permission::whereIn('name', collect($request->permissions)->pluck('name'))->get();
 
-            $role = Role::create(['name' => $request->name, 'guard_name' => 'web']);
+            $role = Role::create(['name' => $request->name]);
             foreach ($permissions as $permission) {
                 $role->givePermissionTo($permission);
             }

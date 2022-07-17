@@ -6,8 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class RoleRequest extends FormRequest
 {
-    protected array $base_rules = [
-        'name' => 'required|string|unique:roles|max:40:min:5',
+    protected $base_rules = [
+        'name' => 'required|string|unique:roles|max:40|min:5',
         'permissions' => 'required|array|min:1',
         'side_nav' => 'required|json'
     ];
@@ -29,18 +29,16 @@ class RoleRequest extends FormRequest
      */
     public function rules()
     {
-        switch ($this->method()) {
-            case 'PUT':
-                return $this->updateRules();
-            default:
-                return $this->base_rule;
-        }
+        return match ($this->method()) {
+            'PUT' => $this->updateRules(),
+            default => $this->base_rules,
+        };
     }
 
     private function updateRules()
     {
-        $this->base_rule['name'] = 'required|string|max:40:min:5|unique:roles,id,' . $this->route('updateRole');
-        return $this->base_rule;
+        $this->base_rules['name'] = 'required|string|max:40:min:5|unique:roles,id,' . $this->route('updateRole');
+        return $this->base_rules;
     }
 
 }

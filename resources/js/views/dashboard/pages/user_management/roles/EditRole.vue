@@ -94,7 +94,7 @@ export default {
     methods: {
         saveRole() {
             this.role.side_nav = JSON.stringify(this.myMenu)
-            apiService.put(`/update-role/${this.$route.params.id}`, this.role).then(response => {
+            apiService.put(`/role/${this.$route.params.id}`, this.role).then(response => {
                 // console.log(response.data)
                 toastr.success(response.status, response.data.message)
             }).catch(error => {

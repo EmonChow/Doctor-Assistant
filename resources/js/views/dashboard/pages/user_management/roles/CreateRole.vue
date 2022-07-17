@@ -91,7 +91,7 @@ export default {
     methods: {
         saveRole() {
             this.role.side_nav = JSON.stringify(this.myMenu)
-            axios.post('/create-role', this.role).then(response => {
+            axios.post('/role', this.role).then(response => {
                 console.log(response.data)
                 toastr.success(response.status, response.data.message)
                 this.role.name = ''
