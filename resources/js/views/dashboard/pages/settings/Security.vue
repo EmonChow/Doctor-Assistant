@@ -8,35 +8,20 @@
 
             <div class="col-xl-6">
                 <!-- Account details card-->
-                <sb-form :fields="fields" url="/change-email" :axios="axios"/>
+                Login history
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import apiService from "../../../../services/apiService";
 import TabNav from "./TabNav";
 
 export default {
-    name: "ChangeEmail",
+    name: "Security",
     components: {
         TabNav
     },
-    data() {
-        return {
-            axios: apiService,
-            fields: {
-                email: {
-                    label: 'New Email'
-                },
-                password: {
-                    label: 'Current Password',
-                    type: 'password'
-                }
-            }
-        }
-    }
 }
 </script>
 

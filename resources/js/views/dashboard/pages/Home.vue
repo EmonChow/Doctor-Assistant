@@ -12,8 +12,9 @@
                     mb-4 mb-xl-0 mb-xxl-4
                   "
                                 >
-                                    <h1 class="text-primary">Welcome to Livret Medical!</h1>
+                                    <h1 class="text-primary">Welcome to Dr Assistant 3.0!</h1>
                                     <p class="text-gray-700 mb-0">
+                                        A Complete SPA <br>
                                         From the left side navigation menu you can operate the entire application
                                     </p>
                                 </div>

@@ -2,11 +2,7 @@
     <sb-header type="compact" :links="links" title="Profile"></sb-header>
     <div class="container-xl px-4 mt-4">
         <!-- Account page navigation-->
-        <nav class="nav nav-borders">
-            <router-link :to="{name:'profile'}" class="nav-link active ms-0">Profile</router-link>
-            <router-link :to="{name:'changeEmail'}" class="nav-link ms-0">Change Email</router-link>
-            <router-link :to="{name:'changePassword'}" class="nav-link ms-0">Change Password</router-link>
-        </nav>
+        <TabNav></TabNav>
         <hr class="mt-0 mb-4">
         <div class="row justify-content-center">
 
@@ -20,9 +16,13 @@
 
 <script>
 import apiService from "../../../../services/apiService";
+import TabNav from "./TabNav";
 
 export default {
     name: "Profile",
+    components: {
+        TabNav
+    },
     data() {
         return {
             axios: apiService,
@@ -32,13 +32,9 @@ export default {
                     type: 'file_field',
                     value: this.$store.state.user.photo
                 },
-                first_name: {
-                    label: 'First Name',
-                    value: this.$store.state.user.first_name
-                },
-                last_name: {
-                    label: 'Last Name',
-                    value: this.$store.state.user.last_name
+                name: {
+                    label: 'Full Name',
+                    value: this.$store.state.user.name
                 },
                 phone: {
                     label: 'Phone',

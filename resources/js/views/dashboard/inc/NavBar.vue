@@ -85,6 +85,7 @@
                          src="@/assets/img/illustrations/profiles/profile-1.png"
                     />
 
+
                     <img v-else
                          class="img-fluid"
                          :src="user.photo"
@@ -99,7 +100,7 @@
                              class="dropdown-user-img"
                              src="@/assets/img/illustrations/profiles/profile-1.png"
                         />
-                        <img :src="user.photo" class="dropdown-user-img" alt="">
+                        <img v-else :src="user.photo" class="dropdown-user-img" alt="">
                         <div class="dropdown-user-details">
                             <div class="dropdown-user-details-name">{{ user.name }}</div>
                             <div class="dropdown-user-details-email">{{ user.email }}</div>
@@ -113,9 +114,9 @@
                         Account
                     </router-link>
 
-                    <a class="dropdown-item" @click="logout" href="javascript:void(0)">
+                    <a class="dropdown-item" @click="logout" href="javascript:void(0);">
                         <div class="dropdown-item-icon"><i data-feather="log-out"></i></div>
-                        Logout
+                        Logout 1
                     </a>
                 </div>
             </li>

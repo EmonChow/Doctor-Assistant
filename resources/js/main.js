@@ -30,4 +30,4 @@ app.use(router).use(VueProgressBar, vueProgressBarOption).use(store)
  * Exporting vue app, so it can be use else ware in the application
  * where we might need to reload the app forcefully
  */
-export default app.mount('#app')
+app.mount('#app')

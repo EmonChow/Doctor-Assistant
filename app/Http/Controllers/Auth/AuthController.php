@@ -31,11 +31,12 @@ class AuthController extends Controller
         $credentials = $request->only(['email', 'password']);
         if (Auth::attempt($credentials)) {
             $user = User::where('email', $request->email)->firstOrFail();
-            // TODO : Store Device Store
             return response()->json($user->createToken("{$agent->platform()} | {$agent->browser()}", ["*"])->plainTextToken);
         }
-        return response()->json(['message' => 'The given data was invalid.',
-            'errors' => ['email' => ['The provided credentials do not match our records']]], 422);
+        return response()->json([
+            'message' => 'The given data was invalid.',
+            'errors' => ['email' => ['The provided credentials do not match our records']]
+        ], 422);
     }
 
     /**
