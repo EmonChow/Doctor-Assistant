@@ -13,7 +13,8 @@
                             <input type="text" v-model="role.name" class="form-control" aria-describedby="emailHelp">
                         </div>
                         <div class="mb-3">
-                            <MultiSelectField :field-info="fieldInfo" v-model="role.permissions"></MultiSelectField>
+                            <MultiSelectField :field-info="fieldInfo" v-model="role.permissions"
+                                              :axios="axios"></MultiSelectField>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -45,11 +46,12 @@
 </template>
 
 <script>
-import axios from '@/services/apiService'
+
 import {MultiSelectField} from "sb-form";
 import {Draggable, Tree, Fold} from "he-tree-vue";
 import 'he-tree-vue/dist/he-tree-vue.css'
 import toastr from "toastr";
+import apiService from "../../../../../services/apiService";
 
 export default {
     name: "EditRole",
@@ -71,6 +73,7 @@ export default {
     },
     data() {
         return {
+            axios: apiService,
             fieldInfo: {
                 label: 'Permissions',
                 config: {
@@ -91,7 +94,7 @@ export default {
     methods: {
         saveRole() {
             this.role.side_nav = JSON.stringify(this.myMenu)
-            axios.put(`/update-role/${this.$route.params.id}`, this.role).then(response => {
+            apiService.put(`/update-role/${this.$route.params.id}`, this.role).then(response => {
                 // console.log(response.data)
                 toastr.success(response.status, response.data.message)
             }).catch(error => {
@@ -119,7 +122,7 @@ export default {
         },
 
         fetchRole() {
-            axios.get(`/role/${this.$route.params.id}`).then(response => {
+            apiService.get(`/role/${this.$route.params.id}`).then(response => {
                 this.role.name = response.data.name
                 this.role.permissions = response.data.permissions
             }).catch(error => {

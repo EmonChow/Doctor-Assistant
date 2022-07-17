@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateRoleRequest extends FormRequest
+class RoleRequest extends FormRequest
 {
-
-    protected $base_rule = [
+    protected array $base_rules = [
         'name' => 'required|string|unique:roles|max:40:min:5',
         'permissions' => 'required|array|min:1',
         'side_nav' => 'required|json'
@@ -26,15 +25,15 @@ class CreateRoleRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function rules()
     {
         switch ($this->method()) {
-            case 'POST':
-                return $this->base_rule;
             case 'PUT':
                 return $this->updateRules();
+            default:
+                return $this->base_rule;
         }
     }
 
@@ -43,4 +42,5 @@ class CreateRoleRequest extends FormRequest
         $this->base_rule['name'] = 'required|string|max:40:min:5|unique:roles,id,' . $this->route('updateRole');
         return $this->base_rule;
     }
+
 }
