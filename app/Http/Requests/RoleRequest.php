@@ -35,9 +35,9 @@ class RoleRequest extends FormRequest
         };
     }
 
-    private function updateRules()
+    private function updateRules(): array
     {
-        $this->base_rules['name'] = 'required|string|max:40:min:5|unique:roles,id,' . $this->route('updateRole');
+        $this->base_rules['name'] = 'required|string|max:40|min:5|unique:roles,id,' . $this->route('role');
         return $this->base_rules;
     }
 
