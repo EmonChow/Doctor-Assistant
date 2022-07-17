@@ -1,12 +1,12 @@
 <template>
     <sb-header type="overlap" title="Roles" description="Roles"/>
     <div class="container-xl px-4 mt-n10">
-        <data-table url="/roles" :columns="columns">
+        <sb-table url="/role" :columns="columns" :axios="axios">
             <template v-slot:tableHeader>
                 <div class="row justify-content-between">
                     <div class="col">Role</div>
                     <div class="col">
-                        <router-link to="/create-role" class="btn btn-primary btn-sm float-end">+ Create Role
+                        <router-link :to="{name:'createRole'}" class="btn btn-primary btn-sm float-end">+ Create Role
                         </router-link>
                     </div>
                 </div>
@@ -17,14 +17,14 @@
                     <router-link class="btn btn-primary" :to="{name: 'editRole', params: {id: item.id}}"><i
                         class="far fa-edit"></i> Edit
                     </router-link>
-                    <button type="button" class="btn btn-danger" @click="deleteRole(item)"><i
+                    <button type="button" class="btn btn-danger" @click="deleteRole(item,'Are you sure')"><i
                         class="far fa-trash-alt"></i>
-                        delete
+                        Delete
                     </button>
                 </div>
             </template>
 
-        </data-table>
+        </sb-table>
     </div>
 
 </template>
@@ -37,6 +37,7 @@ export default {
     name: "Roles",
     data() {
         return {
+            axios: axios,
             columns: [
                 {label: 'Name', field: 'name', searchable: true},
                 {label: 'Guard Name', field: 'guard_name', searchable: true},

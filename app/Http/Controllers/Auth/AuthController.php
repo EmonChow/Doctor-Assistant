@@ -110,4 +110,15 @@ class AuthController extends Controller
         User::find(auth()->user()->id)->update(['email' => $request->email]);
         return response()->json(['message' => 'Password changed successfully']);
     }
+
+    public function authHistory()
+    {
+        return response()->json(\auth()->user()->tokens()->get());
+    }
+
+    public function deleteAuthHistory($id)
+    {
+        \auth()->user()->tokens()->delete($id);
+        return response()->json(['message' => 'Token has been removed']);
+    }
 }

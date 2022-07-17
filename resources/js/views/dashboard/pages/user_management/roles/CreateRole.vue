@@ -11,7 +11,8 @@
                             <input type="text" v-model="role.name" class="form-control" aria-describedby="emailHelp">
                         </div>
                         <div class="mb-3">
-                            <MultiSelectField :field-info="fieldInfo" v-model="role.permissions"></MultiSelectField>
+                            <MultiSelectField :field-info="fieldInfo" v-model="role.permissions"
+                                              :axios="axios"></MultiSelectField>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -44,7 +45,7 @@
 
 <script>
 import axios from '@/services/apiService'
-import MultiSelectField from "../../../../../components/sb-form/fields/MultiSelectField";
+import {MultiSelectField} from "sb-form";
 import 'he-tree-vue/dist/he-tree-vue.css'
 import {Tree, Draggable} from 'he-tree-vue'
 import toastr from "toastr";
@@ -69,6 +70,7 @@ export default {
     },
     data() {
         return {
+            axios: axios,
             fieldInfo: {
                 label: 'Permissions',
                 config: {

@@ -20,7 +20,10 @@ const dashboardUserRoute = [
     {
         path: '/roles',
         component: () => import('./roles/Roles'),
-        name: 'role'
+        name: 'role',
+        meta: {
+            title: 'Role'
+        }
     },
     {
         path: '/create-role',

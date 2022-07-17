@@ -31,6 +31,8 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/auth-history', [AuthController::class, 'authHistory']);
+    Route::delete('/auth-history/{id}', [AuthController::class, 'deleteAuthHistory']);
     Route::get('/get-current-user', [AuthController::class, 'currentUser']);
     Route::post('/change-email', [AuthController::class, 'changeEmailAddress']);
     Route::post('/logout', [AuthController::class, 'logout']);

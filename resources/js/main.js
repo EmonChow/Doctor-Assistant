@@ -1,6 +1,7 @@
 import {createApp} from 'vue'
 import VueProgressBar from "@aacassandra/vue3-progressbar"
 import SbForm from "sb-form";
+import {DataTable} from 'sb-form'
 
 import App from './App.vue'
 
@@ -22,6 +23,7 @@ const app = createApp(App)
 
 app.component('sb-header', Header)
 app.component('sb-form', SbForm)
+app.component('sb-table', DataTable)
 
 app.use(router).use(VueProgressBar, vueProgressBarOption).use(store)
 

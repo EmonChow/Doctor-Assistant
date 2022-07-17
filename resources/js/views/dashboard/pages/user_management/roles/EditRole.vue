@@ -46,7 +46,7 @@
 
 <script>
 import axios from '@/services/apiService'
-import MultiSelectField from "../../../../../components/sb-form/fields/MultiSelectField";
+import {MultiSelectField} from "sb-form";
 import {Draggable, Tree, Fold} from "he-tree-vue";
 import 'he-tree-vue/dist/he-tree-vue.css'
 import toastr from "toastr";

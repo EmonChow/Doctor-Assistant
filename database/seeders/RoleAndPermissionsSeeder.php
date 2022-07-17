@@ -76,10 +76,10 @@ class RoleAndPermissionsSeeder extends Seeder
         $url = array_key_exists('url', $args) ? $args['url'] : "/" . Str::slug($name);
         $label = array_key_exists('label', $args) ? $args['label'] : Str::title($name);
         return collect([
-            $this->generatePermission("create {$name}", ['description' => "Can create {$name}", 'icon' => $icon]),
-            $this->generatePermission("update {$name}", ['description' => "Can update {$name}", 'icon' => $icon]),
+            $this->generatePermission("create {$name}", ['description' => "Can create {$name}", 'sidebar_menu' => 0, 'icon' => $icon]),
+            $this->generatePermission("update {$name}", ['description' => "Can update {$name}", 'sidebar_menu' => 0, 'icon' => $icon]),
             $this->generatePermission("show {$name}", ['description' => "Can show {$name}", 'sidebar_menu' => 1, 'icon' => $icon, 'url' => $url, 'label' => $label]),
-            $this->generatePermission("delete {$name}", ['description' => "Can delete {$name}", 'icon' => $icon]),
+            $this->generatePermission("delete {$name}", ['description' => "Can delete {$name}", 'sidebar_menu' => 0, 'icon' => $icon]),
         ]);
     }
 }
