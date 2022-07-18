@@ -24,7 +24,7 @@ const authRoutes = [
         }
     },
     {
-        path: 'reset-password',
+        path: 'reset-password/:token',
         component: () => import('../views/auth/ResetPassword'),
         name: 'auth.resetPassword',
         meta: {

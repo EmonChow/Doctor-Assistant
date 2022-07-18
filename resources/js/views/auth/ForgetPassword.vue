@@ -1,21 +1,23 @@
 <template>
-    <div class="card">
-        <div class="card-header">
-            Forget my password
-        </div>
-        <div class="card-body">
-            as
-        </div>
-        <div class="card-footer">
-            Back to
-            <router-link :to="{name: 'auth.login'}">Login</router-link>
-        </div>
-    </div>
+    <sb-form :axios="axios" :fields="fields" title="Reset Password" url="/forget-password">
+
+    </sb-form>
+
 </template>
 
 <script>
+import apiService from "../../services/apiService";
+
 export default {
-    name: "ForgetPassword"
+    name: "ForgetPassword",
+    data: () => ({
+        axios: apiService,
+        fields: {
+            email: {
+                label: 'Enter your email address',
+            }
+        }
+    })
 }
 </script>
 

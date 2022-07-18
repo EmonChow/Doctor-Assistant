@@ -1,45 +1,55 @@
 <template>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-6">
-                <form class="card">
-                    <div class="card-header">Reset Password</div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label class="form-label">Enter Your Email Address</label>
-                            <input type="email" class="form-control"
-                                   placeholder="email@example.com">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">PIN number</label>
-                            <input type="email" class="form-control"
-                                   placeholder="email@example.com">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Password</label>
-                            <input type="email" class="form-control"
-                                   placeholder="email@example.com">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Re-Type Password</label>
-                            <input type="email" class="form-control"
-                                   placeholder="email@example.com">
-                        </div>
-
-                    </div>
-                    <div class="card-footer">
-                        <button class="btn btn-primary">Submit</button>
-                        <router-link :to="{name: 'auth.login'}" class="float-end">Login</router-link>
-                    </div>
-                </form>
+            <div class="col-md-8">
+                <sb-form v-if="loaded" :axios="axios" :fields="fields" title="Reset Password"
+                         call-back="redToLogin"
+                         url="/reset-password"></sb-form>
             </div>
+
         </div>
     </div>
 </template>
 
 <script>
+import apiService from "../../services/apiService";
+
 export default {
-    name: "ResetPassword"
+    name: "ResetPassword",
+    data: () => ({
+        loaded: false,
+        token: null,
+        axios: apiService,
+        fields: {
+            email: {label: 'Email'},
+            password: {label: 'Password', type: 'password'},
+            password_confirmation: {label: 'Re-Type Password', type: 'password'}
+        }
+
+    }),
+    methods: {
+        redToLogin() {
+            this.$router.push({name: 'auth.login'})
+        }
+    },
+    mounted() {
+        if (this.$route.params.token) {
+            this.loaded = true
+
+            this.fields['token'] = {
+                label: 'Token',
+                value: this.$route.params.token,
+                type: 'hidden'
+            }
+
+            this.fields['email'] = {
+                label: 'Email',
+                value: this.$route.query.email
+            }
+        }
+
+        console.log(this.fields)
+    }
 }
 </script>
 
