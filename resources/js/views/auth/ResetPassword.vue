@@ -1,14 +1,8 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <sb-form v-if="loaded" :axios="axios" :fields="fields" title="Reset Password"
-                         call-back="redToLogin"
-                         url="/reset-password"></sb-form>
-            </div>
+    <sb-form v-if="loaded" :axios="axios" :fields="fields" title="Reset Password"
+             call-back="redToLogin"
+             url="/reset-password"></sb-form>
 
-        </div>
-    </div>
 </template>
 
 <script>

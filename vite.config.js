@@ -30,7 +30,8 @@ export default defineConfig({
         extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
         alias: {
             "@": path.resolve(__dirname, "./resources/js"),
-            '~': path.resolve(__dirname, "./node_modules")
+            '~': path.resolve(__dirname, "./node_modules"),
+            'public': path.resolve(__dirname, "./public")
         }
     }
 })
