@@ -20,6 +20,14 @@ class PasswordResetController extends Controller
     {
         $request->validate(['email' => 'required|email']);
         // TODO need to generate token
+
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        return $status === Password::RESET_LINK_SENT
+            ? response()->json(['message' => __($status)])
+            : response()->json(['message' => __($status)], 400);
     }
 
     /**

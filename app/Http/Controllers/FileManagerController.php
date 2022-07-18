@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreFileManagerRequest;
-use App\Http\Requests\UpdateFileManagerRequest;
 use App\Models\FileManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
