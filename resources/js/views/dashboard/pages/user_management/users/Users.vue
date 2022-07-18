@@ -24,12 +24,12 @@
 </template>
 
 <script>
-import DateTable from '../../../../../components/data-table/DataTable'
+import {DataTable} from 'sb-form'
 
 export default {
     name: "Users",
     components: {
-        'data-table': DateTable
+        'data-table': DataTable
     },
     data() {
         return {

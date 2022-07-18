@@ -6,10 +6,11 @@
                  :method="method"
                  :url="url" :resetForm="reset"
                  callBack="saveCountryRegion"
+                 :axios="axios"
                  :ajax="ajax">
 
             <template v-slot:additionalFields>
-                <UserCountryRegion ref="userCountryRegion" :user_id="$route.params.id"></UserCountryRegion>
+                Extra
             </template>
 
         </sb-form>
@@ -18,7 +19,6 @@
 
 <script>
 import axios from "../../../../../services/apiService";
-import UserCountryRegion from "../../../../../components/UserCountryRegion";
 
 export default {
     name: "CreateUser",
@@ -32,6 +32,7 @@ export default {
     },
     data() {
         return {
+            axios: axios,
             fields: {
                 school_id: {
                     label: 'Select School',
