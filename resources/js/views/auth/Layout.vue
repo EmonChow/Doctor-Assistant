@@ -3,7 +3,7 @@
         <div class="col-md-4">
             <div class="mb-4">
                 <router-link to="/">
-                    <img height="100" src="http://dap-demo.bcmedico.com/web/icons/icon.png" alt="">
+                    <img height="100" class="mx-auto d-block" src="/static/logo.png" alt="">
                 </router-link>
             </div>
             <router-view/>

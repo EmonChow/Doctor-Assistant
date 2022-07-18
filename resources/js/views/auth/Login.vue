@@ -1,10 +1,17 @@
 <template>
     <sb-form title="Login" url="/login" :fields="fields" :axios="axios" call-back="setActiveUser">
+        <template v-slot:header>
+            <h3 class="mb-0">Login</h3>
+        </template>
+
+        <template v-slot:fields-after>
+            <router-link class="text-end" :to="{name: 'auth.forgetPassword'}">Forgot Passwoord ?</router-link>
+        </template>
         <template v-slot:footer>
-            <button type="submit" class="btn btn-primary float-end">Login</button>
-            <p>Forget your password ?
-                <router-link :to="{name:'auth.forgetPassword'}">Reset Password</router-link>
-            </p>
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary float-end">Login</button>
+            </div>
+
         </template>
     </sb-form>
 
