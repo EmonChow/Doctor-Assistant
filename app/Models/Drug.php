@@ -9,9 +9,13 @@ use Illuminate\Database\Eloquent\Model;
 class Drug extends Model
 {
     use HasFactory;
-
-    protected $table = 'drugs';
-
-    protected $guarded = [];
    
+    protected $fillable = [
+        'trade_name',
+        'generic_name',
+        'note',
+        'additional_advice',
+        'warning',
+        'side_effect',
+    ];
 }
