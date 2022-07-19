@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\PasswordResetController;
+use App\Http\Controllers\DrugController;
 use App\Http\Controllers\FileManagerController;
 use \App\Http\Controllers\RoleController;
 
@@ -21,6 +22,7 @@ use \App\Http\Controllers\RoleController;
 Route::get('/', function (Request $request) {
     return response()->json(['hello' => 'world']);
 });
+
 
 Route::middleware('guest')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -47,4 +49,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/files', [FileManagerController::class, 'index']);
 
 
+
+   
 });
+
+
+  //Drug 
+    Route::get('/drugs', [DrugController::class, 'index']);
+    Route::post('/drugs/store', [DrugController::class, 'store']);
