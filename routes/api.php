@@ -49,11 +49,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/files', [FileManagerController::class, 'index']);
 
 
+    Route::apiResources([
+        'drugs' => DrugController::class
+    ]);
 
-   
 });
-
-
-  //Drug 
-    Route::get('/drugs', [DrugController::class, 'index']);
-    Route::post('/drugs/store', [DrugController::class, 'store']);

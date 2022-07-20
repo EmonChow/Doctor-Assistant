@@ -7,13 +7,13 @@ use Illuminate\Foundation\Http\FormRequest;
 class DrugRequest extends FormRequest
 {
 
-    protected $drugs_rules = [
+    protected array $drugs_rules = [
         'trade_name' => 'required|string|unique:drugs|max:40|min:5',
         'generic_name' => 'required|string|max:40|min:5',
-        'note' => 'required|string|max:250|min:5',
-        'additional_advice' => 'required|string|unique:drugs|max:40|min:5',
-        'warning' => 'required|string|unique:drugs|max:40|min:5',
-        'side_effect' => 'required|string|unique:drugs|max:40|min:5',
+        'note' => 'sometimes|string',
+        'additional_advice' => 'sometimes|string',
+        'warning' => 'sometimes|string',
+        'side_effect' => 'sometimes|string',
     ];
 
     /**
@@ -39,10 +39,13 @@ class DrugRequest extends FormRequest
         };
     }
 
-  
+    /**
+     * Get the validation rules for update under put method
+     *
+     * @return array|string[]
+     */
     private function updateDrugsRules(): array
     {
-      
         $this->drugs_rules['trade_name'] = 'required|string|unique:drugs|max:40|min:5' . $this->route('drugs');
         return $this->drugs_rules;
     }
