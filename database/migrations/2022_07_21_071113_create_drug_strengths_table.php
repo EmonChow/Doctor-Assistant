@@ -15,9 +15,8 @@ return new class extends Migration
     {
         Schema::create('drug_strengths', function (Blueprint $table) {
             $table->id();
-            $table->string('drug_strength');
-            $table->string('strength_status');
-            $table->date('strength_date');
+            $table->string('strength');
+            $table->boolean('status');
             $table->timestamps();
         });
     }

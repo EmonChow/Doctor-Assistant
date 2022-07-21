@@ -15,9 +15,8 @@ return new class extends Migration
     {
         Schema::create('doses', function (Blueprint $table) {
             $table->id();
-            $table->string('drug_dose');
-            $table->string('dose_status');
-            $table->date('dose_date');
+            $table->string('dose');
+            $table->boolean('status');
             $table->timestamps();
         });
     }
