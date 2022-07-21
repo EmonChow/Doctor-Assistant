@@ -1,10 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Http\Request;
 use App\Models\Dose;
-use App\Http\Requests\StoreDoseRequest;
-use App\Http\Requests\UpdateDoseRequest;
+use App\Http\Requests\DoseRequest;
 
 class DoseController extends Controller
 {
@@ -31,12 +30,17 @@ class DoseController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreDoseRequest  $request
+     * @param  \App\Http\Requests\DoseRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreDoseRequest $request)
+    public function store(DoseRequest $request)
     {
-        //
+        $dose = new Dose();
+        $dose->fill($request->all());
+        if ($dose->save()) {
+            return response()->json(['message' => 'Dose Created Successfully']);
+        }
+        return response()->json(['message' => 'Something went wrong'], 400);
     }
 
     /**
@@ -64,11 +68,11 @@ class DoseController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateDoseRequest  $request
+     * @param  \App\Http\Requests\DoseRequest  $request
      * @param  \App\Models\Dose  $dose
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateDoseRequest $request, Dose $dose)
+    public function update(DoseRequest $request, Dose $dose)
     {
         //
     }
