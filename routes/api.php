@@ -48,8 +48,3 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 });
-
-Route::apiResources([
-    'doses' => DoseController::class,
-    'drug' => PostController::class,
-]);
