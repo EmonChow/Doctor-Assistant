@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DrugRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Http\Resources\UserCollection;
 use App\Models\Drug;
 use Illuminate\Support\Facades\DB;
 
@@ -15,11 +16,31 @@ class DrugController extends Controller
      *
      * @return JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Drug::all());
-    }
 
+        $drug_query = Drug::query();
+
+        $trade_name = $request->tradename;
+        $generic_name = $request->genericname;
+
+        if($trade_name){
+            $drug = $drug_query->where('trade_name', 'like', '%' . $trade_name . '%');
+        }
+
+        if($generic_name){
+            $drug = $drug_query->where('generic_name', 'like', '%' . $generic_name . '%');
+        }
+
+          $drug = $drug_query->orderBy('id', 'DESC')->paginate(10);
+
+          return response()->json([
+            'data'=> $drug
+             ],200);
+        
+
+    }
+ 
     /**
      * Store a newly created resource in storage.
      *
