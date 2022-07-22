@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\DrugAdvice;
-use App\Http\Requests\StoreDrugAdviceRequest;
-use App\Http\Requests\UpdateDrugAdviceRequest;
+use App\Http\Requests\DrugAdviceRequest;
+
 
 class DrugAdviceController extends Controller
 {
@@ -13,30 +14,41 @@ class DrugAdviceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $advice_query = DrugAdvice::query();
+
+        $advice = $request->advice;
+
+        if ($advice) {
+            $advice = $advice_query->where('advice', 'like', '%' .  $advice . '%');
+        }
+
+        $advice = $advice_query->orderBy('id', 'DESC')->paginate(10);
+
+        return response()->json(
+            [
+                'data' => $advice
+            ],
+            200
+        );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreDrugAdviceRequest  $request
+     * @param  \App\Http\Requests\DrugAdviceRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreDrugAdviceRequest $request)
+    public function store(DrugAdviceRequest $request)
     {
-        //
+        $drug_advice = new DrugAdvice();
+        $drug_advice->fill($request->all());
+        if ($drug_advice->save()) {
+            return response()->json(['message' => 'Drug Advice Created Successfully']);
+        }
+        return response()->json(['message' => 'Something went wrong'], 400);
     }
 
     /**
@@ -45,32 +57,28 @@ class DrugAdviceController extends Controller
      * @param  \App\Models\DrugAdvice  $drugAdvice
      * @return \Illuminate\Http\Response
      */
-    public function show(DrugAdvice $drugAdvice)
+    public function show($id)
     {
-        //
+        return response()->json(DrugAdvice::findOrFail($id));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\DrugAdvice  $drugAdvice
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(DrugAdvice $drugAdvice)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateDrugAdviceRequest  $request
+     * @param  \App\Http\Requests\DrugAdviceRequest  $request
      * @param  \App\Models\DrugAdvice  $drugAdvice
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateDrugAdviceRequest $request, DrugAdvice $drugAdvice)
+    public function update(DrugAdviceRequest $request, $id)
     {
-        //
+        $drug_advice = DrugAdvice::findOrFail($id);
+        $drug_advice->fill($request->all());
+        if ($drug_advice->save()) {
+            return response()->json(['message' => 'Drug Advice Updated Successfully']);
+        }
+        return response()->json(['message' => 'Something went wrong'], 400);
     }
 
     /**
@@ -79,8 +87,11 @@ class DrugAdviceController extends Controller
      * @param  \App\Models\DrugAdvice  $drugAdvice
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DrugAdvice $drugAdvice)
+    public function destroy($id)
     {
-        //
+        if (DrugAdvice::destroy($id)) {
+            return response()->json(['message' => 'Drug Advice has been deleted successfully']);
+        }
+        return response()->json(['message' => 'Something went wrong'], 400);
     }
 }

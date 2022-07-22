@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Models\Dose;
 use App\Http\Requests\DoseRequest;
@@ -14,23 +15,25 @@ class DoseController extends Controller
      */
     public function index(Request $request)
     {
-        $dose_query =Dose::query();
+        $dose_query = Dose::query();
 
         $dose = $request->dose;
-      
-        if($dose){
+
+        if ($dose) {
             $dose = $dose_query->where('dose', 'like', '%' .  $dose . '%');
         }
 
         $dose = $dose_query->orderBy('id', 'DESC')->paginate(10);
 
-          return response()->json([
-            'data'=> $dose
-             ],200);
-        
+        return response()->json(
+            [
+                'data' => $dose
+            ],
+            200
+        );
     }
 
-   
+
 
     /**
      * Store a newly created resource in storage.
@@ -54,12 +57,12 @@ class DoseController extends Controller
      * @param  \App\Models\Dose  $dose
      * @return \Illuminate\Http\Response
      */
-    public function show(Dose $dose)
+    public function show($id)
     {
         return response()->json(Dose::findOrFail($id));
     }
 
-  
+
 
     /**
      * Update the specified resource in storage.

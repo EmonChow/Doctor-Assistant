@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\FileManagerController;
 use \App\Http\Controllers\RoleController;
 use \App\Http\Controllers\DoseController;
+use \App\Http\Controllers\DrugAdviceController;
 
 
 
@@ -31,7 +32,6 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/forget-password', [PasswordResetController::class, 'forgotPassword']);
     Route::post('/reset-password', [PasswordResetController::class, 'resetPassword']);
-
 });
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -50,18 +50,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/file-upload', [FileManagerController::class, 'store']);
     Route::get('/files', [FileManagerController::class, 'index']);
 
-   
+
 
     Route::apiResources([
         'doses' => DoseController::class,
-    
-      ]);
- 
-    
-    
+        'drug-advices' => DrugAdviceController::class,
 
+    ]);
 });
 
 
-   
-  
+
