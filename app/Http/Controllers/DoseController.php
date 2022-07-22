@@ -12,20 +12,25 @@ class DoseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $dose_query =Dose::query();
+
+        $dose = $request->dose;
+      
+        if($dose){
+            $dose = $dose_query->where('dose', 'like', '%' .  $dose . '%');
+        }
+
+        $dose = $dose_query->orderBy('id', 'DESC')->paginate(10);
+
+          return response()->json([
+            'data'=> $dose
+             ],200);
+        
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+   
 
     /**
      * Store a newly created resource in storage.
@@ -51,19 +56,10 @@ class DoseController extends Controller
      */
     public function show(Dose $dose)
     {
-        //
+        return response()->json(Dose::findOrFail($id));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Dose  $dose
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Dose $dose)
-    {
-        //
-    }
+  
 
     /**
      * Update the specified resource in storage.
@@ -72,9 +68,14 @@ class DoseController extends Controller
      * @param  \App\Models\Dose  $dose
      * @return \Illuminate\Http\Response
      */
-    public function update(DoseRequest $request, Dose $dose)
+    public function update(DoseRequest $request, $id)
     {
-        //
+        $dose = Dose::findOrFail($id);
+        $dose->fill($request->all());
+        if ($dose->save()) {
+            return response()->json(['message' => 'Dose Updated Successfully']);
+        }
+        return response()->json(['message' => 'Something went wrong'], 400);
     }
 
     /**
@@ -83,8 +84,11 @@ class DoseController extends Controller
      * @param  \App\Models\Dose  $dose
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Dose $dose)
+    public function destroy($id)
     {
-        //
+        if (Dose::destroy($id)) {
+            return response()->json(['message' => 'Dose has been deleted successfully']);
+        }
+        return response()->json(['message' => 'Something went wrong'], 400);
     }
 }
