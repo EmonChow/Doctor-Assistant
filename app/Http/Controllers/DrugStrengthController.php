@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\DrugStrength;
-use App\Http\Requests\StoreDrugStrengthRequest;
-use App\Http\Requests\UpdateDrugStrengthRequest;
+use App\Http\Requests\DrugStrengthRequest;
+
 
 class DrugStrengthController extends Controller
 {
@@ -13,30 +14,42 @@ class DrugStrengthController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $strength_query = DrugStrength::query();
+
+        $strength = $request->drugstrength;
+
+        if ($strength) {
+            $strength_data = $strength_query->where('strength', 'like', '%' .  $strength . '%');
+        }
+
+        $strength_data = $strength_query->orderBy('id', 'DESC')->paginate(10);
+
+        return response()->json(
+            [
+                'data' => $strength_data
+            ],
+            200
+        );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreDrugStrengthRequest  $request
+     * @param  \App\Http\Requests\DrugStrengthRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreDrugStrengthRequest $request)
+    public function store(DrugStrengthRequest $request)
     {
-        //
+        $drug_strength = new DrugStrength();
+        $drug_strength->fill($request->all());
+        if ($drug_strength->save()) {
+            return response()->json(['message' => 'Drug Strength Created Successfully']);
+        }
+        return response()->json(['message' => 'Something went wrong'], 400);
     }
 
     /**
@@ -45,32 +58,28 @@ class DrugStrengthController extends Controller
      * @param  \App\Models\DrugStrength  $drugStrength
      * @return \Illuminate\Http\Response
      */
-    public function show(DrugStrength $drugStrength)
+    public function show($id)
     {
-        //
+        return response()->json(DrugStrength::findOrFail($id));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\DrugStrength  $drugStrength
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(DrugStrength $drugStrength)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateDrugStrengthRequest  $request
+     * @param  \App\Http\Requests\DrugStrengthRequest  $request
      * @param  \App\Models\DrugStrength  $drugStrength
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateDrugStrengthRequest $request, DrugStrength $drugStrength)
+    public function update(DrugStrengthRequest $request, $id)
     {
-        //
+        $drug_strength = DrugStrength::findOrfail($id);
+        $drug_strength->fill($request->all());
+        if ($drug_strength->save()) {
+            return response()->json(['message' => 'Drug Strength Updated Successfully']);
+        }
+        return response()->json(['message' => 'Something went wrong'], 400);
     }
 
     /**
@@ -79,8 +88,11 @@ class DrugStrengthController extends Controller
      * @param  \App\Models\DrugStrength  $drugStrength
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DrugStrength $drugStrength)
+    public function destroy($id)
     {
-        //
+        if (DrugStrength::destroy($id)) {
+            return response()->json(['message' => 'Drug Strength has been deleted successfully']);
+        }
+        return response()->json(['message' => 'Something went wrong'], 400);
     }
 }

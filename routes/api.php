@@ -8,6 +8,7 @@ use App\Http\Controllers\FileManagerController;
 use \App\Http\Controllers\RoleController;
 use \App\Http\Controllers\DoseController;
 use \App\Http\Controllers\DrugAdviceController;
+use \App\Http\Controllers\DrugStrengthController;
 
 
 
@@ -55,9 +56,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResources([
         'doses' => DoseController::class,
         'drug-advices' => DrugAdviceController::class,
+        'drug-strength' => DrugStrengthController::class,
 
     ]);
 });
+
 
 
 
