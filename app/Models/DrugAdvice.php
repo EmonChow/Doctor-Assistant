@@ -12,6 +12,6 @@ class DrugAdvice extends Model
     protected $fillable = [
         'advice',
         'status',
-        
+
     ];
 }

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\DrugTypes;
-use App\Http\Requests\StoreDrugTypesRequest;
-use App\Http\Requests\UpdateDrugTypesRequest;
+use App\Http\Requests\DrugTypesRequest;
+
 
 class DrugTypesController extends Controller
 {
@@ -13,30 +14,42 @@ class DrugTypesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $drug_types_query = DrugTypes::query();
+
+        $drug_type = $request->drugtype;
+
+        if ($drug_type) {
+            $drug_type = $drug_types_query->where('type', 'like', '%' .  $drug_type . '%');
+        }
+
+        $drug_type = $drug_types_query->orderBy('id', 'DESC')->paginate(10);
+
+        return response()->json(
+            [
+                'data' => $drug_type
+            ],
+            200
+        );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreDrugTypesRequest  $request
+     * @param  \App\Http\Requests\DrugTypesRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreDrugTypesRequest $request)
+    public function store(DrugTypesRequest $request)
     {
-        //
+        $drug_types = new DrugTypes();
+        $drug_types->fill($request->all());
+        if ($drug_types->save()) {
+            return response()->json(["message" => "Drug Type Created Successfully"]);
+        }
+        return response()->json(['message' => 'Something went wrong'], 400);
     }
 
     /**
@@ -45,32 +58,28 @@ class DrugTypesController extends Controller
      * @param  \App\Models\DrugTypes  $drugTypes
      * @return \Illuminate\Http\Response
      */
-    public function show(DrugTypes $drugTypes)
+    public function show($id)
     {
-        //
+        return response()->json(DrugTypes::findOrFail($id));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\DrugTypes  $drugTypes
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(DrugTypes $drugTypes)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateDrugTypesRequest  $request
+     * @param  \App\Http\Requests\DrugTypesRequest  $request
      * @param  \App\Models\DrugTypes  $drugTypes
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateDrugTypesRequest $request, DrugTypes $drugTypes)
+    public function update(DrugTypesRequest $request, $id)
     {
-        //
+        $drug_types = DrugTypes::findOrfail($id);
+        $drug_types->fill($request->all());
+        if ($drug_types->save()) {
+            return response()->json(["message" => "Drug Type Updated Successfully"]);
+        }
+        return response()->json(['message' => 'Something went wrong'], 400);
     }
 
     /**
@@ -79,8 +88,11 @@ class DrugTypesController extends Controller
      * @param  \App\Models\DrugTypes  $drugTypes
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DrugTypes $drugTypes)
+    public function destroy($id)
     {
-        //
+        if (DrugTypes::destroy($id)) {
+            return response()->json(['message' => 'Drug Type has been deleted successfully']);
+        }
+        return response()->json(['message' => 'Something went wrong'], 400);
     }
 }

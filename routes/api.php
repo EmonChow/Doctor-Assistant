@@ -9,6 +9,7 @@ use \App\Http\Controllers\RoleController;
 use \App\Http\Controllers\DoseController;
 use \App\Http\Controllers\DrugAdviceController;
 use \App\Http\Controllers\DrugStrengthController;
+use \App\Http\Controllers\DrugTypesController;
 
 
 
@@ -57,10 +58,7 @@ Route::middleware('auth:sanctum')->group(function () {
         'doses' => DoseController::class,
         'drug-advices' => DrugAdviceController::class,
         'drug-strength' => DrugStrengthController::class,
+        'drug-type' => DrugTypesController::class,
 
     ]);
 });
-
-
-
-
