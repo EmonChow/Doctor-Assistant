@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Dose;
 use App\Http\Requests\DoseRequest;
 
@@ -13,24 +12,9 @@ class DoseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $dose_query = Dose::query();
-
-        $dose = $request->dose;
-
-        if ($dose) {
-            $dose = $dose_query->where('dose', 'like', '%' .  $dose . '%');
-        }
-
-        $dose = $dose_query->orderBy('id', 'DESC')->paginate(10);
-
-        return response()->json(
-            [
-                'data' => $dose
-            ],
-            200
-        );
+        return Dose::latest('id')->filter()->paginate();
     }
 
 
