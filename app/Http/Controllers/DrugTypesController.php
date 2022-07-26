@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\DrugTypes;
+use App\Filters\DrugTypeFilter;
 use App\Http\Requests\DrugTypesRequest;
 
 
@@ -16,7 +17,7 @@ class DrugTypesController extends Controller
      */
     public function index(Request $request)
     {
-        $drug_type_query = DrugTypes::filter($request)->orderBy('id', 'ASC')->paginate(10);
+        $drug_type_query = DrugTypes::withFilter(new DrugTypeFilter, $request)->orderBy('id', 'DESC')->paginate(10);
 
         return response()->json(
             [

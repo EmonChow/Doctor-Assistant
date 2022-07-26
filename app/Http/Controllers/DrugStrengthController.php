@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\DrugStrength;
+use App\Filters\DrugStrengthFilter;
 use App\Http\Requests\DrugStrengthRequest;
 
 
@@ -16,7 +17,7 @@ class DrugStrengthController extends Controller
      */
     public function index(Request $request)
     {
-        $drug_strength_query = DrugStrength::filter($request)->orderBy('id', 'ASC')->paginate(10);
+        $drug_strength_query = DrugStrength::withFilter(new DrugStrengthFilter, $request)->orderBy('id', 'DESC')->paginate(10);
 
         return response()->json(
             [

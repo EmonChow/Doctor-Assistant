@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\DrugAdvice;
+use App\Filters\DrugAdviceFilter;
 use App\Http\Requests\DrugAdviceRequest;
 
 
@@ -16,7 +17,7 @@ class DrugAdviceController extends Controller
      */
     public function index(Request $request)
     {
-        $advice_query =  DrugAdvice::filter($request)->orderBy('id', 'ASC')->paginate(10);
+        $advice_query =  DrugAdvice::withFilter(new DrugAdviceFilter, $request)->orderBy('id', 'DESC')->paginate(10);
 
 
         return response()->json(
