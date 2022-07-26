@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Filters\DoseFilter;
 use App\Models\Dose;
 use App\Http\Requests\DoseRequest;
 
@@ -15,8 +16,8 @@ class DoseController extends Controller
      */
     public function index(Request $request)
     {
-        $dose_query = Dose::filter($request)->orderBy('id', 'ASC')->paginate(10);
 
+        $dose_query = Dose::withFilter(new DoseFilter, $request)->orderBy('id', 'DESC')->paginate(10);
         return response()->json(
             [
                 'data' => $dose_query
