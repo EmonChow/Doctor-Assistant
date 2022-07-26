@@ -16,19 +16,12 @@ class DrugAdviceController extends Controller
      */
     public function index(Request $request)
     {
-        $advice_query = DrugAdvice::query();
+        $advice_query =  DrugAdvice::filter($request)->orderBy('id', 'ASC')->paginate(10);
 
-        $advice = $request->advice;
-
-        if ($advice) {
-            $advice = $advice_query->where('advice', 'like', '%' .  $advice . '%');
-        }
-
-        $advice = $advice_query->orderBy('id', 'DESC')->paginate(10);
 
         return response()->json(
             [
-                'data' => $advice
+                'data' => $advice_query
             ],
             200
         );

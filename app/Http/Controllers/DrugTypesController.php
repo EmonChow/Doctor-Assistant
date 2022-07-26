@@ -16,19 +16,11 @@ class DrugTypesController extends Controller
      */
     public function index(Request $request)
     {
-        $drug_types_query = DrugTypes::query();
-
-        $drug_type = $request->drugtype;
-
-        if ($drug_type) {
-            $drug_type = $drug_types_query->where('type', 'like', '%' .  $drug_type . '%');
-        }
-
-        $drug_type = $drug_types_query->orderBy('id', 'DESC')->paginate(10);
+        $drug_type_query = DrugTypes::filter($request)->orderBy('id', 'ASC')->paginate(10);
 
         return response()->json(
             [
-                'data' => $drug_type
+                'data' =>   $drug_type_query
             ],
             200
         );

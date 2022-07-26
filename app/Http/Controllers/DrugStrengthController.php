@@ -16,19 +16,11 @@ class DrugStrengthController extends Controller
      */
     public function index(Request $request)
     {
-        $strength_query = DrugStrength::query();
-
-        $strength = $request->drugstrength;
-
-        if ($strength) {
-            $strength_data = $strength_query->where('strength', 'like', '%' .  $strength . '%');
-        }
-
-        $strength_data = $strength_query->orderBy('id', 'DESC')->paginate(10);
+        $drug_strength_query = DrugStrength::filter($request)->orderBy('id', 'ASC')->paginate(10);
 
         return response()->json(
             [
-                'data' => $strength_data
+                'data' => $drug_strength_query
             ],
             200
         );
