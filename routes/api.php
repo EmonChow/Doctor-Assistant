@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\FileManagerController;
 use \App\Http\Controllers\RoleController;
+use App\Http\Controllers\ScheduleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,5 +47,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/file-upload', [FileManagerController::class, 'store']);
     Route::get('/files', [FileManagerController::class, 'index']);
 
-
+    
+    Route::apiResources([
+        'schedules' => ScheduleController::class,
+        
+    ]);
 });
