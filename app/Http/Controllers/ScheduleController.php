@@ -53,7 +53,7 @@ class ScheduleController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->json(Schedule::findOrFail($id));
     }
 
 
@@ -67,7 +67,12 @@ class ScheduleController extends Controller
      */
     public function update(ScheduleRequest $request, $id)
     {
-        //
+        $schedule = Schedule::findOrFail($id);
+        $schedule->fill($request->all());
+        if ($schedule->save()) {
+            return response()->json(['message' => 'Schedule Updated Successfully']);
+        }
+        return response()->json(['message' => 'Something went wrong'], 400);
     }
 
     /**
@@ -78,6 +83,9 @@ class ScheduleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (Schedule::destroy($id)) {
+            return response()->json(['message' => 'Schedule has been deleted successfully']);
+        }
+        return response()->json(['message' => 'Something went wrong'], 400);
     }
 }
