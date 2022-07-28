@@ -1,38 +1,32 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\PrescriptionHelpers;
 
-use Illuminate\Http\Request;
 use App\Filters\DoseFilter;
-use App\Models\Dose;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\DoseRequest;
+use App\Models\Dose;
+use Illuminate\Http\Request;
 
 class DoseController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
-
-        $dose_query = Dose::withFilter(new DoseFilter, $request)->orderBy('id', 'DESC')->paginate(10);
-        return response()->json(
-            [
-                'data' => $dose_query
-            ],
-            200
-        );
+        $dose_query = Dose::withFilter(new DoseFilter, $request)->paginate($request->query('limit'));
+        return response()->json($dose_query);
     }
-
 
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\DoseRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param \App\Http\Requests\DoseRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(DoseRequest $request)
     {
@@ -47,8 +41,8 @@ class DoseController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Dose  $dose
-     * @return \Illuminate\Http\Response
+     * @param \App\Models\Dose $dose
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -56,13 +50,12 @@ class DoseController extends Controller
     }
 
 
-
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\DoseRequest  $request
-     * @param  \App\Models\Dose  $dose
-     * @return \Illuminate\Http\Response
+     * @param \App\Http\Requests\DoseRequest $request
+     * @param \App\Models\Dose $dose
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(DoseRequest $request, $id)
     {
@@ -77,8 +70,8 @@ class DoseController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Dose  $dose
-     * @return \Illuminate\Http\Response
+     * @param \App\Models\Dose $dose
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

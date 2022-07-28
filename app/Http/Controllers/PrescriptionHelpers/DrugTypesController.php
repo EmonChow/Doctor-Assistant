@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\PrescriptionHelpers;
 
-use Illuminate\Http\Request;
-use App\Models\DrugTypes;
 use App\Filters\DrugTypeFilter;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\DrugTypesRequest;
+use App\Models\DrugTypes;
+use Illuminate\Http\Request;
 
 
 class DrugTypesController extends Controller

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\PrescriptionHelpers;
 
-use Illuminate\Http\Request;
-use App\Models\DrugStrength;
 use App\Filters\DrugStrengthFilter;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\DrugStrengthRequest;
+use App\Models\DrugStrength;
+use Illuminate\Http\Request;
 
 
 class DrugStrengthController extends Controller

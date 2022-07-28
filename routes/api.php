@@ -1,17 +1,15 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\FileManagerController;
-use \App\Http\Controllers\RoleController;
-use \App\Http\Controllers\DoseController;
-use \App\Http\Controllers\DrugAdviceController;
-use \App\Http\Controllers\DrugStrengthController;
-use \App\Http\Controllers\DrugTypesController;
-
-
+use App\Http\Controllers\PrescriptionHelpers\DoseController;
+use App\Http\Controllers\PrescriptionHelpers\DrugAdviceController;
+use App\Http\Controllers\PrescriptionHelpers\DrugStrengthController;
+use App\Http\Controllers\PrescriptionHelpers\DrugTypesController;
+use App\Http\Controllers\RoleController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 
 /*
