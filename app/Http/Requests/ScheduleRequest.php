@@ -12,7 +12,8 @@ class ScheduleRequest extends FormRequest
         'address' =>  'required|string:schedules',
         'contact_person' => 'required|string:schedules',
         'phone' =>  'required|string:schedules',
-        'email' =>  'required|email:schedules',
+        'email' =>  'required|email',
+
 
     ];
     /**

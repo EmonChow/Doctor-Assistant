@@ -16,5 +16,7 @@ class Schedule extends Model
         'contact_person',
         'phone',
         'email',
+        'email',
+        'user_id'
     ];
 }
