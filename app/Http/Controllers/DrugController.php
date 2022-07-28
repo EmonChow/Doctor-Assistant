@@ -12,35 +12,23 @@ use Illuminate\Support\Facades\DB;
 class DrugController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display drug listing of the resource.
      *
      * @return JsonResponse
      */
     public function index(Request $request)
     {
-
-        $drug_query = Drug::query();
-
-        $trade_name = $request->tradename;
-        $generic_name = $request->genericname;
-
-        if($trade_name){
-            $drug = $drug_query->where('trade_name', 'like', '%' . $trade_name . '%');
+        $query = Drug::query();
+        if ($request->has('trade_name')) {
+            $query->where('trade_name', 'like', "%{$request->query('trade_name')}%");
+        }
+        if ($request->has('generic_name')) {
+            $query->where('generic_name', 'like', "%{$request->query('generic_name')}%");
         }
 
-        if($generic_name){
-            $drug = $drug_query->where('generic_name', 'like', '%' . $generic_name . '%');
-        }
-
-          $drug = $drug_query->orderBy('id', 'DESC')->paginate(10);
-
-          return response()->json([
-            'data'=> $drug
-             ],200);
-        
-
+        return response()->json($query->paginate($request->query('limit')));
     }
- 
+
     /**
      * Store a newly created resource in storage.
      *
