@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('contact_person');
             $table->integer('phone')->unique();
             $table->string('email')->unique();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
