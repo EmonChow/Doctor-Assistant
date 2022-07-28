@@ -12,19 +12,12 @@ class ScheduleController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
-        $schedule_query = Schedule::withFilter(new ScheduleFilter, $request)
-            ->orderBy('id', 'DESC')
-            ->paginate(10);
-        return response()->json(
-            [
-                'data' => $schedule_query
-            ],
-            200
-        );
+        $schedule_query = Schedule::withFilter(new ScheduleFilter, $request)->orderBy('id', 'DESC')->paginate($request->query('limit'));
+        return response()->json($schedule_query);
     }
 
 
@@ -33,7 +26,7 @@ class ScheduleController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\ScheduleRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(ScheduleRequest $request)
     {
@@ -49,7 +42,7 @@ class ScheduleController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Schedule  $schedule
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -63,7 +56,7 @@ class ScheduleController extends Controller
      *
      * @param  \App\Http\Requests\ScheduleRequest  $request
      * @param  \App\Models\Schedule  $schedule
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(ScheduleRequest $request, $id)
     {
@@ -79,7 +72,7 @@ class ScheduleController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Schedule  $schedule
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

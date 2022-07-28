@@ -15,7 +15,6 @@ class ScheduleFilter extends ModelFilter
     public function getFilterables(): array
     {
         return [
-            'id' => ['exact', 'not_equal'],
             'title' => ['contains', 'starts_with'],
             'address' => ['contains', 'starts_with'],
             'contact_person' => ['contains', 'starts_with'],

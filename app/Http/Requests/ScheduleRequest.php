@@ -8,11 +8,11 @@ class ScheduleRequest extends FormRequest
 {
 
     protected $schedule_rules = [
-        'title' => 'required|string|unique:schedules',
-        'address' =>  'required|string|unique:schedules',
-        'contact_person' => 'required|string|unique:schedules',
-        'phone' =>  'required|string|unique:schedules',
-        'email' =>  'required|email|unique:schedules',
+        'title' => 'required|string:schedules',
+        'address' =>  'required|string:schedules',
+        'contact_person' => 'required|string:schedules',
+        'phone' =>  'required|string:schedules',
+        'email' =>  'required|email:schedules',
 
     ];
     /**
@@ -40,11 +40,11 @@ class ScheduleRequest extends FormRequest
 
     private function updateScheduleRules(): array
     {
-        $this->schedule_rules['title'] = 'required|string|unique:schedules,id,' . $this->route('schedules');
-        $this->schedule_rules['address'] = 'required|string|unique:schedules,id,' . $this->route('schedules');
-        $this->schedule_rules['contact_person'] = 'required|string|unique:schedules,id,' . $this->route('schedules');
-        $this->schedule_rules['phone'] = 'required|string|unique:schedules,id,' . $this->route('schedules');
-        $this->schedule_rules['email'] = 'required|email|unique:schedules,id,' . $this->route('schedules');
+        $this->schedule_rules['title'] = 'required|string:schedules,id,' . $this->route('schedules');
+        $this->schedule_rules['address'] = 'required|string:schedules,id,' . $this->route('schedules');
+        $this->schedule_rules['contact_person'] = 'required|string:schedules,id,' . $this->route('schedules');
+        $this->schedule_rules['phone'] = 'required|string:schedules,id,' . $this->route('schedules');
+        $this->schedule_rules['email'] = 'required|email:schedules,id,' . $this->route('schedules');
         return $this->schedule_rules;
     }
 }
