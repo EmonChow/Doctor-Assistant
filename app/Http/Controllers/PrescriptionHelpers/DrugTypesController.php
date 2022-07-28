@@ -14,18 +14,12 @@ class DrugTypesController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
-        $drug_type_query = DrugTypes::withFilter(new DrugTypeFilter, $request)->orderBy('id', 'DESC')->paginate(10);
-
-        return response()->json(
-            [
-                'data' =>   $drug_type_query
-            ],
-            200
-        );
+        $drug_type_query = DrugTypes::withFilter(new DrugTypeFilter, $request)->orderBy('id', 'DESC')->paginate($request->query('limit'));
+        return response()->json($drug_type_query);
     }
 
 
@@ -34,7 +28,7 @@ class DrugTypesController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\DrugTypesRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(DrugTypesRequest $request)
     {
@@ -50,7 +44,7 @@ class DrugTypesController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\DrugTypes  $drugTypes
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -64,7 +58,7 @@ class DrugTypesController extends Controller
      *
      * @param  \App\Http\Requests\DrugTypesRequest  $request
      * @param  \App\Models\DrugTypes  $drugTypes
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(DrugTypesRequest $request, $id)
     {
@@ -80,7 +74,7 @@ class DrugTypesController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\DrugTypes  $drugTypes
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

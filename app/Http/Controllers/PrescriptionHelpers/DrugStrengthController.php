@@ -14,18 +14,12 @@ class DrugStrengthController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
-        $drug_strength_query = DrugStrength::withFilter(new DrugStrengthFilter, $request)->orderBy('id', 'DESC')->paginate(10);
-
-        return response()->json(
-            [
-                'data' => $drug_strength_query
-            ],
-            200
-        );
+        $drug_strength_query = DrugStrength::withFilter(new DrugStrengthFilter, $request)->orderBy('id', 'DESC')->paginate($request->query('limit'));
+        return response()->json($drug_strength_query);
     }
 
 
@@ -34,7 +28,7 @@ class DrugStrengthController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\DrugStrengthRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(DrugStrengthRequest $request)
     {
@@ -50,7 +44,7 @@ class DrugStrengthController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\DrugStrength  $drugStrength
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -64,7 +58,7 @@ class DrugStrengthController extends Controller
      *
      * @param  \App\Http\Requests\DrugStrengthRequest  $request
      * @param  \App\Models\DrugStrength  $drugStrength
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(DrugStrengthRequest $request, $id)
     {
@@ -80,7 +74,7 @@ class DrugStrengthController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\DrugStrength  $drugStrength
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

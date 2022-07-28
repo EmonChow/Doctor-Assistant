@@ -11,12 +11,11 @@ class DrugStrengthFilter extends ModelFilter
      * 
      * @see https://github.com/LaravelLegends/eloquent-filter#what-does-it-do
      * @return array
-    */
+     */
     public function getFilterables(): array
     {
         return [
-            'id' => ['exact', 'not_equal'],
-            'strength'=>['contains', 'starts_with'],
+            'strength' => ['contains', 'starts_with'],
         ];
     }
 }

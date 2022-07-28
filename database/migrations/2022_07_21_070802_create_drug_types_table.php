@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::create('drug_types', function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            $table->boolean('status');
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

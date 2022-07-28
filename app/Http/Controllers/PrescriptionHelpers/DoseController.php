@@ -17,7 +17,7 @@ class DoseController extends Controller
      */
     public function index(Request $request)
     {
-        $dose_query = Dose::withFilter(new DoseFilter, $request)->paginate($request->query('limit'));
+        $dose_query = Dose::withFilter(new DoseFilter, $request)->orderBy('id', 'DESC')->paginate($request->query('limit'));
         return response()->json($dose_query);
     }
 

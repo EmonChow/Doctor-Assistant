@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('drug_advice', function (Blueprint $table) {
             $table->id();
             $table->string('advice');
-            $table->boolean('status');
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

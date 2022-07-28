@@ -14,19 +14,12 @@ class DrugAdviceController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
-        $advice_query =  DrugAdvice::withFilter(new DrugAdviceFilter, $request)->orderBy('id', 'DESC')->paginate(10);
-
-
-        return response()->json(
-            [
-                'data' => $advice_query
-            ],
-            200
-        );
+        $advice_query = DrugAdvice::withFilter(new DrugAdviceFilter, $request)->orderBy('id', 'DESC')->paginate($request->query('limit'));
+        return response()->json($advice_query);
     }
 
 
@@ -34,7 +27,7 @@ class DrugAdviceController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\DrugAdviceRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(DrugAdviceRequest $request)
     {
@@ -50,7 +43,7 @@ class DrugAdviceController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\DrugAdvice  $drugAdvice
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -64,7 +57,7 @@ class DrugAdviceController extends Controller
      *
      * @param  \App\Http\Requests\DrugAdviceRequest  $request
      * @param  \App\Models\DrugAdvice  $drugAdvice
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(DrugAdviceRequest $request, $id)
     {
@@ -80,7 +73,7 @@ class DrugAdviceController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\DrugAdvice  $drugAdvice
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
