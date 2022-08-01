@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('address');
             $table->string('contact_person');
-            $table->integer('phone');
+            $table->string('phone');
             $table->string('email');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
