@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Schedule;
 use App\Http\Requests\ScheduleRequest;
 use App\Filters\ScheduleFilter;
+use App\Models\SchedulesDays;
 
 class ScheduleController extends Controller
 {
@@ -30,10 +31,15 @@ class ScheduleController extends Controller
      */
     public function store(ScheduleRequest $request)
     {
+        $schedule_days = new SchedulesDays();
+        $schedule_days->fill($request->all());
         $schedule = new Schedule();
         $schedule->fill($request->all());
-        if ($schedule->save()) {
-            return response()->json(['message' => 'Schedule Created Successfully']);
+        if ($schedule . $schedule_days->save()) {
+            return response()->json([
+                'message' => 'Schedule And Schedule Days Created Successfully',
+
+            ]);
         }
         return response()->json(['message' => 'Something went wrong'], 400);
     }

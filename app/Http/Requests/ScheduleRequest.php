@@ -13,8 +13,7 @@ class ScheduleRequest extends FormRequest
         'contact_person' => 'required|string:schedules',
         'phone' =>  'required|string:schedules',
         'email' =>  'required|email',
-
-
+        "days" => 'required|string:schedules_days',
     ];
     /**
      * Determine if the user is authorized to make this request.
