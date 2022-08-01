@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Schedule;
 use App\Http\Requests\ScheduleRequest;
 use App\Filters\ScheduleFilter;
+use App\Models\ScheduleDaysTime;
 use App\Models\SchedulesDays;
 use Illuminate\Support\Facades\DB;
+use DateTime;
 
 class ScheduleController extends Controller
 {
@@ -45,13 +47,49 @@ class ScheduleController extends Controller
                 $schedule_day->schedule_id = $schedule->id;
                 $schedule_day->save();
             }
+            $schedule_day_time = new ScheduleDaysTime();
+            $schedule_day_time->fill($request->all());
+            $schedule_day_time->schedules_day_id = $schedule_day->id;
+            $schedule_day_time->save();
+
+            $timeSchedule = [];
+
+            foreach ($request->days as $value) {
+                $day = $value["day"];
+                $slotTime = $value["time_slot"];
+                $startTime = $value["start_time"];
+                $endTime = $value["end_time"];
+                $slots = $this->getTimeSlot($slotTime, $startTime, $endTime);
+                $timeSchedule[$day] = $slots;
+            }
             DB::commit();
-            return response()->json(['message' => 'Successfully stored']);
+            return response()->json(['schedule_day_time' => $timeSchedule]);
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
+    }
 
+    function getTimeSlot($slot_time, $start_time, $end_time)
+    {
+        $start = new DateTime($start_time);
+        $end = new DateTime($end_time);
+        $startTime = $start->format('H:i');
+        $endTime = $end->format('H:i');
+        $i = 0;
+        $time = [];
+        while (strtotime($startTime) <= strtotime($endTime)) {
+            $start = $startTime;
+            $end = date('H:i', strtotime('+' . $slot_time . ' minutes', strtotime($startTime)));
+            $startTime = $end;
+            $i++;
+            if (strtotime($startTime) <= strtotime($endTime)) {
+                $time["slot" . $i]['start_time'] = $start;
+                $time["slot" . $i]['end_time'] = $end;
+            }
+        }
+
+        return $time;
     }
 
     /**
