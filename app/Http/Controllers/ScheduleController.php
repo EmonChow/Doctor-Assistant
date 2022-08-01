@@ -43,13 +43,12 @@ class ScheduleController extends Controller
                 $schedule_day = new SchedulesDays();
                 $schedule_day->fill($day);
                 $schedule_day->schedule_id = $schedule->id;
-                $schedule->save();
+                $schedule_day->save();
             }
             DB::commit();
-            return response()->json(['message' => 'Something went wrong'], 400);
+            return response()->json(['message' => 'Successfully stored']);
         } catch (\Exception $e) {
             DB::rollBack();
-            dump($e);
             throw $e;
         }
 

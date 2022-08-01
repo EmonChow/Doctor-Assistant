@@ -12,6 +12,6 @@ class ScheduleDaysTime extends Model
     protected $fillable = [
         'start_time',
         'end_time',
-        'slot_time',
+        'time_slot',
     ];
 }
