@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use App\Models\Schedule;
 use App\Http\Requests\ScheduleRequest;
@@ -46,50 +48,40 @@ class ScheduleController extends Controller
                 $schedule_day->fill($day);
                 $schedule_day->schedule_id = $schedule->id;
                 $schedule_day->save();
-            }
-            $schedule_day_time = new ScheduleDaysTime();
-            $schedule_day_time->fill($request->all());
-            $schedule_day_time->schedules_day_id = $schedule_day->id;
-            $schedule_day_time->save();
 
-            $timeSchedule = [];
-
-            foreach ($request->days as $value) {
-                $day = $value["day"];
-                $slotTime = $value["time_slot"];
-                $startTime = $value["start_time"];
-                $endTime = $value["end_time"];
-                $slots = $this->getTimeSlot($slotTime, $startTime, $endTime);
-                $timeSchedule[$day] = $slots;
+                $slots = $this->getTimeSlots($day['start_time'], $day['end_time'], $day['time_slot'] . ' minutes');
+                $schedule_date_time = collect();
+                foreach ($slots as $slot) {
+                    $schedule_date_time->push([
+                        'time' => $slot->toTimeString(),
+                        'schedules_day_id' => $schedule_day->id,
+                        'created_at' => Carbon::now()
+                    ]);
+                }
+                ScheduleDaysTime::insert($schedule_date_time->toArray());
             }
+
             DB::commit();
-            return response()->json(['schedule_day_time' => $timeSchedule]);
+            return response()->json(['message' => 'Database has been']);
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
     }
 
-    function getTimeSlot($slot_time, $start_time, $end_time)
+    /**
+     * Getting all time between start and end time by given interval
+     *
+     * @param $start_time
+     * @param $end_time
+     * @param $interval
+     * @return CarbonPeriod
+     */
+    private function getTimeSlots($start_time, $end_time, $interval)
     {
-        $start = new DateTime($start_time);
-        $end = new DateTime($end_time);
-        $startTime = $start->format('H:i');
-        $endTime = $end->format('H:i');
-        $i = 0;
-        $time = [];
-        while (strtotime($startTime) <= strtotime($endTime)) {
-            $start = $startTime;
-            $end = date('H:i', strtotime('+' . $slot_time . ' minutes', strtotime($startTime)));
-            $startTime = $end;
-            $i++;
-            if (strtotime($startTime) <= strtotime($endTime)) {
-                $time["slot" . $i]['start_time'] = $start;
-                $time["slot" . $i]['end_time'] = $end;
-            }
-        }
-
-        return $time;
+        $start_time = Carbon::parse($start_time);
+        $end_time = Carbon::parse($end_time);
+        return CarbonPeriod::create($start_time, $interval, $end_time);
     }
 
     /**

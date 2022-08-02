@@ -14,6 +14,7 @@ return new class extends Migration {
     {
         Schema::create('schedule_days_times', function (Blueprint $table) {
             $table->id();
+            $table->time('time');
             $table->foreignId('schedules_day_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
