@@ -49,7 +49,7 @@ class ScheduleRequest extends FormRequest
         $this->schedule_rules['address'] = 'required|string:schedules,id,' . $this->route('schedules');
         $this->schedule_rules['contact_person'] = 'required|string:schedules,id,' . $this->route('schedules');
         $this->schedule_rules['phone'] = 'required|string:schedules,id,' . $this->route('schedules');
-        $this->schedule_rules['email'] = 'required|email:schedules,id,' . $this->route('schedules');
+        $this->schedule_rules['email'] = 'required|string:schedules,id,' . $this->route('schedules');
         return $this->schedule_rules;
     }
 }

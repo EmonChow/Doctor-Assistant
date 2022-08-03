@@ -11,7 +11,7 @@ use App\Filters\ScheduleFilter;
 use App\Models\ScheduleDaysTime;
 use App\Models\SchedulesDays;
 use Illuminate\Support\Facades\DB;
-use DateTime;
+
 
 class ScheduleController extends Controller
 {
@@ -48,8 +48,7 @@ class ScheduleController extends Controller
                 $schedule_day->fill($day);
                 $schedule_day->schedule_id = $schedule->id;
                 $schedule_day->save();
-
-                $slots = $this->getTimeSlots($day['start_time'], $day['end_time'], $day['time_slot'] . ' minutes');
+                $slots = $this->getTimeSlots($day['start_time'], $day['end_time'], $day['time_slot'] . 'minutes');
                 $schedule_date_time = collect();
                 foreach ($slots as $slot) {
                     $schedule_date_time->push([
@@ -62,13 +61,12 @@ class ScheduleController extends Controller
             }
 
             DB::commit();
-            return response()->json(['message' => 'Database has been']);
+            return response()->json(['message' => 'Data has been stored']);
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
     }
-
     /**
      * Getting all time between start and end time by given interval
      *
@@ -77,6 +75,7 @@ class ScheduleController extends Controller
      * @param $interval
      * @return CarbonPeriod
      */
+
     private function getTimeSlots($start_time, $end_time, $interval)
     {
         $start_time = Carbon::parse($start_time);
@@ -94,8 +93,6 @@ class ScheduleController extends Controller
     {
         return response()->json(Schedule::findOrFail($id));
     }
-
-
     /**
      * Update the specified resource in storage.
      *
@@ -107,6 +104,10 @@ class ScheduleController extends Controller
     {
         $schedule = Schedule::findOrFail($id);
         $schedule->fill($request->all());
+        $schedule->save();
+        foreach ($request->days as $day) {
+            SchedulesDays::where('schedule_id', $id)->update(["day" => $day["day"], "start_time" =>  $day["start_time"], "end_time" =>  $day["end_time"], "time_slot" =>  $day["time_slot"]]);
+        }
         if ($schedule->save()) {
             return response()->json(['message' => 'Schedule Updated Successfully']);
         }
