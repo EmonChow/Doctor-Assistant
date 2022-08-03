@@ -91,7 +91,12 @@ class ScheduleController extends Controller
      */
     public function show($id)
     {
-        return response()->json(Schedule::findOrFail($id));
+        $schedule_day = Schedule::with('schedules_days')->where('id', $id)->get();
+        if (count($schedule_day) < 1) {
+            return response()->json(['message' => "Invalid id or schedule with given id is not found"]);
+        }
+        return response()->json(['data' => $schedule_day]);
+
     }
     /**
      * Update the specified resource in storage.
