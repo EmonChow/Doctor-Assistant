@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Schedule;
 use App\Http\Requests\ScheduleRequest;
 use App\Filters\ScheduleFilter;
-use App\Models\ScheduleDaysTime;
-use App\Models\SchedulesDays;
+use App\Models\ScheduleDayTime;
+use App\Models\ScheduleDay;
 use Illuminate\Support\Facades\DB;
 
 
@@ -44,7 +44,7 @@ class ScheduleController extends Controller
             $schedule->save();
 
             foreach ($request->days as $day) {
-                $schedule_day = new SchedulesDays();
+                $schedule_day = new ScheduleDay();
                 $schedule_day->fill($day);
                 $schedule_day->schedule_id = $schedule->id;
                 $schedule_day->save();
@@ -57,7 +57,7 @@ class ScheduleController extends Controller
                         'created_at' => Carbon::now()
                     ]);
                 }
-                ScheduleDaysTime::insert($schedule_date_time->toArray());
+                ScheduleDayTime::insert($schedule_date_time->toArray());
             }
 
             DB::commit();
@@ -67,6 +67,7 @@ class ScheduleController extends Controller
             throw $e;
         }
     }
+
     /**
      * Getting all time between start and end time by given interval
      *
@@ -91,13 +92,10 @@ class ScheduleController extends Controller
      */
     public function show($id)
     {
-        $schedule_day = Schedule::with('schedules_days')->where('id', $id)->get();
-        if (count($schedule_day) < 1) {
-            return response()->json(['message' => "Invalid id or schedule with given id is not found"]);
-        }
-        return response()->json(['data' => $schedule_day]);
-
+        $schedule = Schedule::with('scheduleDaysTimes')->findOrFail($id);
+        return response()->json($schedule);
     }
+
     /**
      * Update the specified resource in storage.
      *
@@ -111,7 +109,7 @@ class ScheduleController extends Controller
         $schedule->fill($request->all());
         $schedule->save();
         foreach ($request->days as $day) {
-            SchedulesDays::where('schedule_id', $id)->update(["day" => $day["day"], "start_time" =>  $day["start_time"], "end_time" =>  $day["end_time"], "time_slot" =>  $day["time_slot"]]);
+            ScheduleDay::where('schedule_id', $id)->update(["day" => $day["day"], "start_time" => $day["start_time"], "end_time" => $day["end_time"], "time_slot" => $day["time_slot"]]);
         }
         if ($schedule->save()) {
             return response()->json(['message' => 'Schedule Updated Successfully']);

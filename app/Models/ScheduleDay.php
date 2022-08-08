@@ -4,9 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 
-class SchedulesDays extends Model
+class ScheduleDay extends Model
 {
     use HasFactory;
 
@@ -16,5 +17,10 @@ class SchedulesDays extends Model
         'end_time',
         'time_slot'
     ];
-    
+
+    public function times(): HasMany
+    {
+        return $this->hasMany(ScheduleDayTime::class);
+    }
+
 }

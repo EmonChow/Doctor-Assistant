@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use LaravelLegends\EloquentFilter\Concerns\HasFilter;
-use App\Models\SchedulesDays;
+use App\Models\ScheduleDay;
 
 
 class Schedule extends Model
@@ -19,8 +20,15 @@ class Schedule extends Model
         'phone',
         'email'
     ];
-    public function schedules_days(){
-       return $this->hasMany(SchedulesDays::class);
+
+    public function scheduleDays(): HasMany
+    {
+        return $this->hasMany(ScheduleDay::class);
+    }
+
+    public function scheduleDaysTimes(): HasMany
+    {
+        return $this->hasMany(ScheduleDay::class)->with('times');
     }
 
 }
