@@ -53,7 +53,7 @@ class ScheduleController extends Controller
                 foreach ($slots as $slot) {
                     $schedule_date_time->push([
                         'time' => $slot->toTimeString(),
-                        'schedules_day_id' => $schedule_day->id,
+                        'schedule_day_id' => $schedule_day->id,
                         'created_at' => Carbon::now()
                     ]);
                 }
@@ -61,7 +61,7 @@ class ScheduleController extends Controller
             }
 
             DB::commit();
-            return response()->json(['message' => 'Data has been stored']);
+            return response()->json(['message' => 'Schedule has been created successfully']);
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
@@ -129,5 +129,15 @@ class ScheduleController extends Controller
             return response()->json(['message' => 'Schedule has been deleted successfully']);
         }
         return response()->json(['message' => 'Something went wrong'], 400);
+    }
+
+    /**
+     * @param $user_id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getScheduleByUser($user_id)
+    {
+        $schedule = Schedule::where('user_id', $user_id)->with('scheduleDaysTimes')->get();
+        return response()->json($schedule);
     }
 }

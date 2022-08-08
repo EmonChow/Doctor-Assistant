@@ -47,9 +47,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/file-upload', [FileManagerController::class, 'store']);
     Route::get('/files', [FileManagerController::class, 'index']);
 
-    
+
     Route::apiResources([
         'schedules' => ScheduleController::class,
-        
+
     ]);
+
+    Route::get('/schedule-by-user/{user_id}', [ScheduleController::class, 'getScheduleByUser']);
 });
