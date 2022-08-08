@@ -17,7 +17,8 @@ class ScheduleRequest extends FormRequest
         "days.*.day" => "required|string",
         "days.*.start_time" => "required|date_format:H:i",
         "days.*.end_time" => "required|date_format:H:i",
-        "days.*.time_slot" => "required|numeric|min:1"
+        "days.*.time_slot" => "required|numeric|min:1",
+        "days.*.time" => "required|numeric|min:1"
     ];
 
     /**

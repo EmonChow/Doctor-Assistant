@@ -110,6 +110,7 @@ class ScheduleController extends Controller
         $schedule->save();
         foreach ($request->days as $day) {
             ScheduleDay::where('schedule_id', $id)->update(["day" => $day["day"], "start_time" => $day["start_time"], "end_time" => $day["end_time"], "time_slot" => $day["time_slot"]]);
+            ScheduleDayTime::where('schedule_day_id', $id)->update(["time" =>$day["time"]]);
         }
         if ($schedule->save()) {
             return response()->json(['message' => 'Schedule Updated Successfully']);

@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\FileManagerController;
 use \App\Http\Controllers\RoleController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\AppointmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,4 +55,9 @@ Route::middleware('auth:sanctum')->group(function () {
     ]);
 
     Route::get('/schedule-by-user/{user_id}', [ScheduleController::class, 'getScheduleByUser']);
+
+    Route::apiResources([
+        'appointment' =>AppointmentController::class,
+
+    ]);
 });
