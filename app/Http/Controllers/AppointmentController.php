@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\AppointmentFilter;
 use App\Models\Appointment;
 use App\Http\Requests\AppointmentRequest;
 use App\Models\Schedule;
@@ -17,7 +18,9 @@ class AppointmentController extends Controller
      */
     public function index(Request $request)
     {
-        //
+        $appointment_query = Appointment::withFilter(new AppointmentFilter, $request)
+            ->orderBy('id', 'DESC')->paginate($request->query('limit'));
+        return response()->json($appointment_query);
     }
 
     /**
@@ -53,7 +56,8 @@ class AppointmentController extends Controller
      */
     public function show($id)
     {
-        //
+        $appointment =Appointment::findOrFail($id);
+        return response()->json($appointment);
     }
 
 
@@ -64,9 +68,22 @@ class AppointmentController extends Controller
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(AppointmentRequest $request)
+    public function update(AppointmentRequest $request, $id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $schedule = Schedule::where('user_id', $request->user_id)->get(); 
+            $appointment =  Appointment::findOrFail($id);
+            $appointment->fill($request->all());
+            $appointment->save();
+            DB::commit();
+            return response()->json(['message' => 'Appointment has been updated successfully']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+        return response()->json(['message' => 'Something went wrong'], 400);
+
     }
 
     /**
@@ -77,6 +94,9 @@ class AppointmentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (Appointment::destroy($id)) {
+            return response()->json(['message' => 'Appointment has been deleted successfully']);
+        }
+        return response()->json(['message' => 'Something went wrong'], 400);
     }
 }

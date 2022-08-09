@@ -110,14 +110,24 @@ class ScheduleController extends Controller
         $schedule->save();
         foreach ($request->days as $day) {
             ScheduleDay::where('schedule_id', $id)->update(["day" => $day["day"], "start_time" => $day["start_time"], "end_time" => $day["end_time"], "time_slot" => $day["time_slot"]]);
-            ScheduleDayTime::where('schedule_day_id', $id)->update(["time" =>$day["time"]]);
+            
+            $slots = $this->getTimeSlots($day['start_time'], $day['end_time'], $day['time_slot'] . 'minutes');
+            $schedule_date_time = collect();
+            foreach ($slots as $slot) {
+                ScheduleDayTime::where('schedule_day_id', $id)->delete();
+                $schedule_date_time->push([
+                    'time' => $slot->toTimeString(),
+                    'schedule_day_id' => $id,
+                    'created_at' => Carbon::now()
+                ]);
+            }
+            ScheduleDayTime::insert($schedule_date_time->toArray());
+            if ($schedule->save()) {
+                return response()->json(['message' => 'Schedule Updated Successfully']);
+            }
+            return response()->json(['message' => 'Something went wrong'], 400);
         }
-        if ($schedule->save()) {
-            return response()->json(['message' => 'Schedule Updated Successfully']);
-        }
-        return response()->json(['message' => 'Something went wrong'], 400);
     }
-
     /**
      * Remove the specified resource from storage.
      *
