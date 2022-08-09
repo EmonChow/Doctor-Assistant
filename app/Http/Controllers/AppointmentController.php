@@ -8,8 +8,6 @@ use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-
-
 class AppointmentController extends Controller
 {
     /**
@@ -22,8 +20,6 @@ class AppointmentController extends Controller
         //
     }
 
-   
-
     /**
      * Store a newly created resource in storage.
      *
@@ -34,13 +30,16 @@ class AppointmentController extends Controller
     {
         DB::beginTransaction();
         try {
+            $schedule = Schedule::where('user_id', $request->user_id)->with('scheduleDaysTimes')->get();
+            if (count($schedule) < 1) {
+                return response()->json(['message' => 'Something went wrong'], 400);
+            }
             $appointment = new Appointment();
             $appointment->fill($request->all());
             $appointment->save();
-
             DB::commit();
             return response()->json(['message' => 'Appointment has been created successfully']);
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
@@ -57,7 +56,7 @@ class AppointmentController extends Controller
         //
     }
 
-   
+
     /**
      * Update the specified resource in storage.
      *
