@@ -72,7 +72,10 @@ class AppointmentController extends Controller
     {
         DB::beginTransaction();
         try {
-            $schedule = Schedule::where('user_id', $request->user_id)->get(); 
+            $schedule = Schedule::where('user_id', $request->user_id)->with('scheduleDaysTimes')->get();
+            if (count($schedule) < 1) {
+                return response()->json(['message' => 'Something went wrong'], 400);
+            }
             $appointment =  Appointment::findOrFail($id);
             $appointment->fill($request->all());
             $appointment->save();

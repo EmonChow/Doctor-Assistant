@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->integer('schedule_id');
-            $table->integer('schedule_day_id');
-            $table->integer('schedule_day_time_id');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('schedule_id')->constrained()->onDelete('cascade');
+            $table->foreignId('schedule_day_id')->constrained()->onDelete('cascade');
+            $table->foreignId('schedule_day_time_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
