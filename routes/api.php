@@ -13,6 +13,8 @@ use App\Http\Controllers\PrescriptionHelpers\DrugAdviceController;
 use App\Http\Controllers\PrescriptionHelpers\DrugStrengthController;
 use App\Http\Controllers\PrescriptionHelpers\DrugTypesController;
 
+use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\AppointmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +63,11 @@ Route::middleware('auth:sanctum')->group(function () {
         'drug-advices' => DrugAdviceController::class,
         'drug-strength' => DrugStrengthController::class,
         'drug-type' => DrugTypesController::class,
+        'schedules' => ScheduleController::class,
+        'appointment' => AppointmentController::class,
+
     ]);
+
+    Route::get('/schedule-by-user/{user_id}', [ScheduleController::class, 'getScheduleByUser']);
 });
 
