@@ -10,7 +10,7 @@ class AppointmentRequest extends FormRequest
         'user_id' => 'required|integer:appointments',
         'schedule_id' => 'required|integer:appointments',
         'schedule_day_id' => 'required|integer:appointments',
-        'schedule_day_time_id' => 'required|integer:appointments',
+        'schedule_day_time_id' => 'required|integer|unique:appointments',
     ];
     /**
      * Determine if the user is authorized to make this request.
