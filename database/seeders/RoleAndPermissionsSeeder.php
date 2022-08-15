@@ -47,7 +47,7 @@ class RoleAndPermissionsSeeder extends Seeder
         $permissions->push(...$this->generatePermissionCRUD('role', ['url' => '/roles']));
         $permissions->push(...$this->generatePermissionCRUD('user', ['url' => '/users']));
         // TODO: Additional permissions will be written here
-
+        $permissions->push(...$this->generatePermissionCRUD('drug', ['url' => '/drugs'])); // TODO: will change the url once the url has been generated from the front end
 
         Permission::insert($permissions->toArray());
 
