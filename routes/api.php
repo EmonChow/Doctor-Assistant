@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\FileManagerController;
+
 use App\Http\Controllers\PrescriptionHelpers\DoseController;
 use App\Http\Controllers\PrescriptionHelpers\DrugAdviceController;
 use App\Http\Controllers\PrescriptionHelpers\DrugStrengthController;
@@ -31,6 +32,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/forget-password', [PasswordResetController::class, 'forgotPassword']);
     Route::post('/reset-password', [PasswordResetController::class, 'resetPassword']);
+    
 });
 
 Route::middleware('auth:sanctum')->group(function () {
