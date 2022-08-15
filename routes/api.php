@@ -9,7 +9,6 @@ use App\Http\Controllers\PrescriptionHelpers\DoseController;
 use App\Http\Controllers\PrescriptionHelpers\DrugAdviceController;
 use App\Http\Controllers\PrescriptionHelpers\DrugStrengthController;
 use App\Http\Controllers\PrescriptionHelpers\DrugTypesController;
-use App\Http\Controllers\RoleController;
 
 
 /*
