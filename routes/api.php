@@ -1,12 +1,18 @@
 <?php
 
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\DrugController;
 use App\Http\Controllers\FileManagerController;
-use \App\Http\Controllers\RoleController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PrescriptionHelpers\DoseController;
+use App\Http\Controllers\PrescriptionHelpers\DrugAdviceController;
+use App\Http\Controllers\PrescriptionHelpers\DrugStrengthController;
+use App\Http\Controllers\PrescriptionHelpers\DrugTypesController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -50,10 +56,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     Route::apiResources([
-        'drugs' => DrugController::class
+        'drugs' => DrugController::class,
+        'doses' => DoseController::class,
+        'drug-advices' => DrugAdviceController::class,
+        'drug-strength' => DrugStrengthController::class,
+        'drug-type' => DrugTypesController::class,
     ]);
-    
-   
-
 });
 
