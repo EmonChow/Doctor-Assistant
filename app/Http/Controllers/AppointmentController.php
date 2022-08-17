@@ -44,7 +44,7 @@ class AppointmentController extends Controller
             return response()->json(['message' => 'Appointment has been created successfully']);
         } catch (\Exception $e) {
             DB::rollBack();
-            throw $e;
+            throw $e; 
         }
     }
 
