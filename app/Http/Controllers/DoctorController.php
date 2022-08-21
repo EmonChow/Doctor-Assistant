@@ -40,7 +40,7 @@ class DoctorController extends Controller
             // Create User for Doctor
             $user = new User();
             $user->fill($request->only(['name', 'photo', 'email']));
-            $user->passworrd = Hash::make($request->password);
+            $user->password = Hash::make($request->password);
             $user->save();
             // Assign Role
             $user->assignRole('Doctor');
