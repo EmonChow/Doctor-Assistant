@@ -46,6 +46,10 @@ class DoctorController extends Controller
             $user->assignRole('Doctor');
             // Apply Polymorphic Relation
             $doctor->user()->save($user);
+
+            $department = new Department();
+            $department->fill($request->only(['name', 'description']));
+            $department->save();
             DB::commit();
             return response()->json(['message' => 'Doctor has been created successfully']);
         } catch (\Exception $e) {
