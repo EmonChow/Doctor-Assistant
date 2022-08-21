@@ -21,6 +21,9 @@ return new class extends Migration {
             $table->text('address')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('profile_type')->nullable();
+            $table->unsignedBigInteger('profile_id')->nullable();
+            $table->boolean('active')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

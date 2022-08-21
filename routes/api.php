@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\DoctorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
@@ -65,7 +66,7 @@ Route::middleware('auth:sanctum')->group(function () {
         'drug-type' => DrugTypesController::class,
         'schedules' => ScheduleController::class,
         'appointment' => AppointmentController::class,
-
+        'doctor' => DoctorController::class
     ]);
 
     Route::get('/schedule-by-user/{user_id}', [ScheduleController::class, 'getScheduleByUser']);
