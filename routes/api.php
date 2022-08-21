@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DoctorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -66,6 +67,7 @@ Route::middleware('auth:sanctum')->group(function () {
         'drug-type' => DrugTypesController::class,
         'schedules' => ScheduleController::class,
         'appointment' => AppointmentController::class,
+        'department' => DepartmentController::class,
         'doctor' => DoctorController::class
     ]);
 
