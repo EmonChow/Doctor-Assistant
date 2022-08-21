@@ -9,8 +9,8 @@ class DrugAdviceRequest extends FormRequest
 
 
     protected $drug_advice_rules = [
-        'advice' => 'required|string|',
-        'status' => 'required|boolean|',
+        'advice' => 'required|string',
+        'status' => 'required|boolean',
 
     ];
 
@@ -40,7 +40,6 @@ class DrugAdviceRequest extends FormRequest
 
     private function updateDrugAdviceRules(): array
     {
-        $this->drug_advice_rules['advice'] = 'required|string|max:40|min:5|unique:drug_advice,id,' . $this->route('drug-advices');
         return $this->drug_advice_rules;
     }
 }

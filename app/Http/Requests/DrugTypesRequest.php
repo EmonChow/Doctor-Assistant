@@ -36,7 +36,6 @@ class DrugTypesRequest extends FormRequest
 
     private function updateDrugTypeRules(): array
     {
-        $this->drug_type_rules['type'] = 'required|string|max:40|min:5|unique:drug_types,id,' . $this->route('drug-type');
         return $this->drug_type_rules;
     }
 }
