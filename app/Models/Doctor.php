@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Doctor extends Model
 {
@@ -15,8 +16,12 @@ class Doctor extends Model
         'department_id'
     ];
 
-    public function profile()
+    /**
+     * Polymorphic Relation With User
+     * @return MorphTo
+     */
+    public function user(): MorphTo
     {
-        return $this->morphMany(User::class, 'profileable');
+        return $this->morphTo(User::class, 'profile');
     }
 }

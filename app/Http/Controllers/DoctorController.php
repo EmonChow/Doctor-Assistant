@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DoctorRequest;
 use App\Http\Requests\UpdateDoctorRequest;
 use App\Models\Doctor;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use App\Models\Department;
+use Illuminate\Support\Facades\Hash;
 
 class DoctorController extends Controller
 {
@@ -27,22 +29,29 @@ class DoctorController extends Controller
      *
      * @param \App\Http\Requests\DoctorRequest $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function store(DoctorRequest $request)
     {
         DB::beginTransaction();
         try {
-            $doctor =  Doctor::with('profile')->get();
-            $doctor->fill($request->all());
-            $doctor->save();
+            // Create Doctor
+            $doctor = Doctor::create($request->only(['title', 'description', 'department_id']));
+            // Create User for Doctor
+            $user = new User();
+            $user->fill($request->only(['name', 'photo', 'email']));
+            $user->passworrd = Hash::make($request->password);
+            $user->save();
+            // Assign Role
+            $user->assignRole('Doctor');
+            // Apply Polymorphic Relation
+            $doctor->user()->save($user);
             DB::commit();
             return response()->json(['message' => 'Doctor has been created successfully']);
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
-        // $doctor = Doctor::with('profile')->get();
-       
     }
 
     /**
@@ -53,7 +62,7 @@ class DoctorController extends Controller
      */
     public function show($id)
     {
-        
+
     }
 
 
