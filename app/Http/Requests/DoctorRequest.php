@@ -15,7 +15,7 @@ class DoctorRequest extends FormRequest
         'address' => 'sometimes|string|min:5|max:200',
         'password' => 'required|string|min:6|max:40',
         'degrees' => 'sometimes|array|min:1',
-        'department_id' => 'required|number',
+        'department_id' => 'required|integer',
         'degrees.*.title' => 'required|string|min:2|max:50',
         'degrees.*.description' => 'sometimes|string|min:2|max:500',
     ];
