@@ -6,12 +6,13 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class AppointmentRequest extends FormRequest
 {
-    protected $appointment_rules =[
+    protected $appointment_rules = [
         'user_id' => 'required|integer:appointments',
         'schedule_id' => 'required|integer:appointments',
         'schedule_day_id' => 'required|integer:appointments',
-        'schedule_day_time_id' => 'required|integer:appointments',
+        'schedule_day_time_id' => 'required|integer|unique:appointments',
     ];
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -37,15 +38,9 @@ class AppointmentRequest extends FormRequest
 
     private function updateAppointmentRules(): array
     {
-        $this->appointment_rules['user_id'] = 'required|integer:appointments,id,' . $this->route('appointment');
-        $this->appointment_rules['schedule_id'] = 'required|integer:appointments,id,' . $this->route('appointment');
-        $this->appointment_rules['schedule_day_id'] = 'required|integer:appointments,id,' . $this->route('appointment');
-        $this->appointment_rules['schedule_day_time_id'] = 'required|integer:appointments,id,' . $this->route('appointment');
+        $this->appointment_rules['schedule_day_time_id'] = 'required|integer|unique:appointments,id,' . $this->route('appointment');
         return $this->appointment_rules;
     }
-
-
-
 
 
 }
