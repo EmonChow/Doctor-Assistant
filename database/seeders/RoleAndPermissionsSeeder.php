@@ -21,6 +21,9 @@ class RoleAndPermissionsSeeder extends Seeder
          */
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions(); // forget cached permissions
         $super_admin = Role::create(['name' => 'Super Admin']);
+        $doctor = Role::create(['name' => 'Doctor']);
+        $patient = Role::create(['name' => 'Patient']);
+        $assistant = Role::create(['name' => 'Assistant']);
         /**
          * use $this->generatePermission($name, $args = []) to generate permission array
          * it will take two arguments first one will be the name of the permission
