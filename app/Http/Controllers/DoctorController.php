@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DoctorRequest;
 use App\Http\Requests\UpdateDoctorRequest;
 use App\Models\Doctor;
+use Illuminate\Support\Facades\DB;
+use App\Models\Department;
 
 class DoctorController extends Controller
 {
@@ -24,22 +26,34 @@ class DoctorController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \App\Http\Requests\DoctorRequest $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(DoctorRequest $request)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $doctor =  Doctor::with('profile')->get();
+            $doctor->fill($request->all());
+            $doctor->save();
+            DB::commit();
+            return response()->json(['message' => 'Doctor has been created successfully']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+        // $doctor = Doctor::with('profile')->get();
+       
     }
 
     /**
      * Display the specified resource.
      *
      * @param $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        //
+        
     }
 
 
@@ -48,7 +62,7 @@ class DoctorController extends Controller
      *
      * @param \App\Http\Requests\DoctorRequest $request
      * @param $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(DoctorRequest $request, $id)
     {
@@ -59,7 +73,7 @@ class DoctorController extends Controller
      * Remove the specified resource from storage.
      *
      * @param \App\Models\Doctor $doctor
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Doctor $doctor)
     {

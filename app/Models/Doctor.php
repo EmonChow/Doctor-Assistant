@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Doctor extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'title',
+        'description',
+        'department_id'
+    ];
+
+    public function profile()
+    {
+        return $this->morphMany(User::class, 'profileable');
+    }
 }
