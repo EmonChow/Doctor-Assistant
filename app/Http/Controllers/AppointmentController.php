@@ -26,7 +26,7 @@ class AppointmentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\AppointmentRequest  $request
+     * @param \App\Http\Requests\AppointmentRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(AppointmentRequest $request)
@@ -35,7 +35,7 @@ class AppointmentController extends Controller
         try {
             $schedule = Schedule::where('user_id', $request->user_id)->with('scheduleDaysTimes')->get();
             if (count($schedule) < 1) {
-                return response()->json(['message' => 'Something went wrong'], 400);
+                return response()->json(['message' => 'Schedule not found for the doctor'], 400);
             }
             $appointment = new Appointment();
             $appointment->fill($request->all());
@@ -51,12 +51,12 @@ class AppointmentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Appointment  $appointment
+     * @param \App\Models\Appointment $appointment
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        $appointment =Appointment::findOrFail($id);
+        $appointment = Appointment::findOrFail($id);
         return response()->json($appointment);
     }
 
@@ -64,8 +64,8 @@ class AppointmentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateAppointmentRequest  $request
-     * @param  \App\Models\Appointment  $appointment
+     * @param \App\Http\Requests\UpdateAppointmentRequest $request
+     * @param \App\Models\Appointment $appointment
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(AppointmentRequest $request, $id)
@@ -74,9 +74,9 @@ class AppointmentController extends Controller
         try {
             $schedule = Schedule::where('user_id', $request->user_id)->with('scheduleDaysTimes')->get();
             if (count($schedule) < 1) {
-                return response()->json(['message' => 'Something went wrong'], 400);
+                return response()->json(['message' => 'Schedule not found for the doctor'], 400);
             }
-            $appointment =  Appointment::findOrFail($id);
+            $appointment = Appointment::findOrFail($id);
             $appointment->fill($request->all());
             $appointment->save();
             DB::commit();
@@ -92,7 +92,7 @@ class AppointmentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Appointment  $appointment
+     * @param \App\Models\Appointment $appointment
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)

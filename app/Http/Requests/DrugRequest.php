@@ -46,7 +46,7 @@ class DrugRequest extends FormRequest
      */
     private function updateDrugsRules(): array
     {
-        $this->drugs_rules['trade_name'] = 'required|string|unique:drugs|max:40|min:5' . $this->route('drugs');
+        $this->drugs_rules['trade_name'] = 'required|string|max:40|min:5|unique:drugs,id,' . $this->route('drugs');
         return $this->drugs_rules;
     }
 }
