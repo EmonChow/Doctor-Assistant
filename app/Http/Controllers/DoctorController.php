@@ -8,6 +8,7 @@ use App\Models\Doctor;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use App\Models\Department;
+use App\Models\DoctorDegree;
 use Illuminate\Support\Facades\Hash;
 
 class DoctorController extends Controller
@@ -46,6 +47,12 @@ class DoctorController extends Controller
             $user->assignRole('Doctor');
             // Apply Polymorphic Relation
             $doctor->user()->save($user);
+            foreach($request->degrees as $degree){
+                $doctor_degree = new DoctorDegree();
+                $doctor_degree->fill($degree);
+                $doctor_degree->doctor_id =$doctor->id;
+                $doctor_degree->save();
+            }
             DB::commit();
             return response()->json(['message' => 'Doctor has been created successfully']);
         } catch (\Exception $e) {

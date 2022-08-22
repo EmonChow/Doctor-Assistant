@@ -12,5 +12,6 @@ class DoctorDegree extends Model
     protected $fillable = [
         'title',
         'description',
+        'doctor_degree'
     ];
 }

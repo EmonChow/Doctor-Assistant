@@ -18,6 +18,7 @@ class DoctorRequest extends FormRequest
         'department_id' => 'required|integer',
         'degrees.*.title' => 'required|string|min:2|max:50',
         'degrees.*.description' => 'sometimes|string|min:2|max:500',
+        'degrees.*.doctor_id' => 'required|integer',
     ];
 
     /**
