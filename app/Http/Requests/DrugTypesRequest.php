@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class DrugTypesRequest extends FormRequest
 {
-
     protected $drug_type_rules = [
         'type' => 'required|string|',
         'status' => 'required|boolean|',

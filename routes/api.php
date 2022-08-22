@@ -17,6 +17,7 @@ use App\Http\Controllers\PrescriptionHelpers\DrugTypesController;
 
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\PatientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,7 +69,8 @@ Route::middleware('auth:sanctum')->group(function () {
         'schedules' => ScheduleController::class,
         'appointment' => AppointmentController::class,
         'department' => DepartmentController::class,
-        'doctor' => DoctorController::class
+        'doctor' => DoctorController::class,
+        'patient' => PatientController::class,
     ]);
 
     Route::get('/schedule-by-user/{user_id}', [ScheduleController::class, 'getScheduleByUser']);
