@@ -49,7 +49,7 @@ class User extends Authenticatable
      *
      * @return MorphTo
      */
-    public function profile(): MorphTo
+    public function profileable(): MorphTo
     {
         return $this->morphTo();
     }
