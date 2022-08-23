@@ -20,7 +20,9 @@ class PatientController extends Controller
     public function index(Request $request)
     {
         $patient_query = Patient::withFilter(new PatientFilter, $request)
-            ->orderBy('id', 'DESC')->paginate($request->query('limit'));
+            ->orderBy('id', 'DESC')
+            ->with('user')
+            ->paginate($request->query('limit'));
         return response()->json($patient_query);
     }
 
@@ -48,7 +50,6 @@ class PatientController extends Controller
             throw $e;
         }
     }
-
     /**
      * Display the specified resource.
      *
@@ -56,11 +57,10 @@ class PatientController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
-    {
-        $patient = Patient::findOrFail($id);
-        return response()->json($patient); 
+    { 
+        $patient = Patient::with('user')->findOrFail($id);
+        return response()->json($patient);
     }
-
     /**
      * Update the specified resource in storage.
      *
