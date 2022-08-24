@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\DepartmentFilter;
 use App\Http\Requests\DepartmentRequest;
 use App\Models\Department;
+use App\Models\DepartmentExaminationField;
+use App\Models\DepartmentExamination;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class DepartmentController extends Controller
 {
@@ -15,8 +20,11 @@ class DepartmentController extends Controller
      */
     public function index(Request $request)
     {
-        $departments = Department::paginate($request->limit);
-        return response()->json($departments);
+        $department_query = Department::withFilter(new DepartmentFilter, $request)
+            ->orderBy('id', 'DESC')
+            ->with('departmentExamination')
+            ->paginate($request->query('limit'));
+        return response()->json($department_query);
     }
 
     /**
@@ -27,10 +35,26 @@ class DepartmentController extends Controller
      */
     public function store(DepartmentRequest $request)
     {
-        $department = new Department();
-        $department->fill($request->all());
-        if ($department->save()) {
-            return response()->json(['message' => 'Department has been saved successfully']);
+        DB::beginTransaction();
+        try {
+            $department = Department::create($request->only(['name', 'description']));
+            foreach ($request->department_examinations as $examinations) {
+                $department_examination = new DepartmentExamination();
+                $department_examination->fill($examinations);
+                $department_examination->department_id = $department->id;
+                $department_examination->save();
+            }
+            foreach ($request->department_examination_fields as $examination_fields) {
+                $department_examination_field = new DepartmentExaminationField();
+                $department_examination_field->fill($examination_fields);
+                $department_examination_field->department_examination_id = $department_examination->id;
+                $department_examination_field->save();
+            }
+            DB::commit();
+            return response()->json(['message' => 'Department has been created successfully']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
         }
     }
 
@@ -42,7 +66,7 @@ class DepartmentController extends Controller
      */
     public function show($id)
     {
-        return response()->json(Department::findOrFail($id));
+        return response()->json(Department::findOrFail($id)->with('departmentExamination')->get());
     }
 
     /**
@@ -54,12 +78,23 @@ class DepartmentController extends Controller
      */
     public function update(DepartmentRequest $request, $id)
     {
-        $dose = Department::findOrFail($id);
-        $dose->fill($request->all());
-        if ($dose->save()) {
-            return response()->json(['message' => 'Department Updated Successfully']);
+        DB::beginTransaction();
+        try {
+            $department = Department::findOrFail($id);
+            $department->fill($request->all());
+            $department->save();
+            foreach ($request->department_examinations as $examinations) {
+                DepartmentExamination::where('department_id', $id)->update(["name" => $examinations["name"]]);
+            }
+            foreach ($request->department_examination_fields as $examination_fields) {
+                DepartmentExaminationField::where('department_examination_id', $id)->update(["title" => $examination_fields["title"], "field_type" => $examination_fields["field_type"]]);
+            }
+            DB::commit();
+            return response()->json(['message' => 'Department has been updated successfully']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
         }
-        return response()->json(['message' => 'Something went wrong'], 400);
     }
 
     /**
@@ -75,5 +110,4 @@ class DepartmentController extends Controller
         }
         return response()->json(['message' => 'Something went wrong'], 400);
     }
-    
 }

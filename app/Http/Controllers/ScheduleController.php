@@ -141,7 +141,6 @@ class ScheduleController extends Controller
         }
         return response()->json(['message' => 'Something went wrong'], 400);
     }
-
     /**
      * @param $user_id
      * @return \Illuminate\Http\JsonResponse

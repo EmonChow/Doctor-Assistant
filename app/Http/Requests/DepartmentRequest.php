@@ -3,12 +3,18 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class DepartmentRequest extends FormRequest
 {
     protected $department_rules = [
         'name' => 'required|string',
         'description' => 'required|string',
+        'name' => 'required|string',
+        'title' => 'required|string',
+        "department_examinations.*.name" => "required|string",
+        "department_examination_fields.*.title" => "required|string",
+        "department_examination_fields.*.field_type" => "required|string",
     ];
     /**
      * Determine if the user is authorized to make this request.

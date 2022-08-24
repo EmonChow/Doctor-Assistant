@@ -65,7 +65,7 @@ class DoctorController extends Controller
      */
     public function show($id)
     {
-        return response()->json(Doctor::findOrFail($id));
+        return response()->json(Doctor::findOrFail($id)->with('user'));
     }
     /**
      * Update the specified resource in storage.
