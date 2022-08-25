@@ -9,7 +9,7 @@ use App\Models\DepartmentExaminationField;
 use App\Models\DepartmentExamination;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
+
 
 class DepartmentController extends Controller
 {
@@ -56,6 +56,7 @@ class DepartmentController extends Controller
             DB::rollBack();
             throw $e;
         }
+    
     }
 
     /**
@@ -66,7 +67,7 @@ class DepartmentController extends Controller
      */
     public function show($id)
     {
-        return response()->json(Department::findOrFail($id)->with('departmentExamination')->get());
+        return response()->json(Department::with('departmentExamination')->findOrFail($id));
     }
 
     /**
