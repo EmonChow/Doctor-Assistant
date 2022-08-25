@@ -19,7 +19,7 @@ class Department extends Model
 
     public function departmentExamination(): HasMany
     {
-        return $this->hasMany(DepartmentExamination::class);
+        return $this->hasMany(DepartmentExamination::class)->with('departmentExaminationField');
     }
 
 }
