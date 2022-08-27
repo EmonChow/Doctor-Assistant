@@ -59,7 +59,6 @@ class ScheduleController extends Controller
                 }
                 ScheduleDayTime::insert($schedule_date_time->toArray());
             }
-
             DB::commit();
             return response()->json(['message' => 'Schedule has been created successfully']);
         } catch (\Exception $e) {

@@ -12,5 +12,6 @@ class DepartmentExaminationField extends Model
     protected $fillable = [
         'title',
         'field_type',
+        'department_examination_id'
     ];
 }

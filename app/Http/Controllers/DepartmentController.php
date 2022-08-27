@@ -26,7 +26,6 @@ class DepartmentController extends Controller
             ->paginate($request->query('limit'));
         return response()->json($department_query);
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -43,12 +42,15 @@ class DepartmentController extends Controller
                 $department_examination->fill($examinations);
                 $department_examination->department_id = $department->id;
                 $department_examination->save();
-            }
-            foreach ($request->department_examination_fields as $examination_fields) {
-                $department_examination_field = new DepartmentExaminationField();
-                $department_examination_field->fill($examination_fields);
-                $department_examination_field->department_examination_id = $department_examination->id;
-                $department_examination_field->save();
+                $examination_field = collect();
+                foreach ($examinations["examination_fields"] as $field) {
+                    $examination_field->push([
+                        'title' => $field["title"],
+                        'field_type' => $field["field_type"],
+                        'department_examination_id' => $department_examination->id
+                    ]);
+                }
+                DepartmentExaminationField::insert($examination_field->toArray());
             }
             DB::commit();
             return response()->json(['message' => 'Department has been created successfully']);
@@ -56,7 +58,6 @@ class DepartmentController extends Controller
             DB::rollBack();
             throw $e;
         }
-    
     }
 
     /**
@@ -85,10 +86,12 @@ class DepartmentController extends Controller
             $department->fill($request->all());
             $department->save();
             foreach ($request->department_examinations as $examinations) {
-                DepartmentExamination::where('department_id', $id)->update(["name" => $examinations["name"]]);
-            }
-            foreach ($request->department_examination_fields as $examination_fields) {
-                DepartmentExaminationField::where('department_examination_id', $id)->update(["title" => $examination_fields["title"], "field_type" => $examination_fields["field_type"]]);
+                $department_examination = DepartmentExamination::where("department_id", $id) ->get()->first();
+                $department_examination["name"] = $examinations["name"];
+                $department_examination->save();
+                foreach ($examinations["examination_fields"] as $field) {
+                    DepartmentExaminationField::where('department_examination_id', $department_examination->id)->update(["title" => $field["title"], "field_type" => $field["field_type"]]);
+                }
             }
             DB::commit();
             return response()->json(['message' => 'Department has been updated successfully']);
@@ -97,7 +100,6 @@ class DepartmentController extends Controller
             throw $e;
         }
     }
-
     /**
      * Remove the specified resource from storage.
      *

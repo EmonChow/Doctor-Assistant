@@ -13,7 +13,7 @@ class DoctorRequest extends FormRequest
         'email' => 'required|email|unique:users',
         'phone' => 'required|string|unique:users',
         'address' => 'sometimes|string|min:5|max:200',
-        'password' => 'required|string|confirmed|min:6|max:40',
+        'password' => 'required|string',
         'degrees' => 'sometimes|array|min:1',
         'department_id' => 'required|integer',
         'degrees.*.title' => 'required|string|min:2|max:50',

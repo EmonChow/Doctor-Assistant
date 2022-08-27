@@ -12,9 +12,9 @@ class Appointment extends Model
     use HasFilter;
 
     protected $fillable = [
-        'user_id',
-        'schedule_id',
-        'schedule_day_id',
+        'doctor_id',
+        'patient_id',
+        'appointment_date',
         'schedule_day_time_id',
     ];
 }

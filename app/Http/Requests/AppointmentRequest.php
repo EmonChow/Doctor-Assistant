@@ -7,9 +7,9 @@ use Illuminate\Foundation\Http\FormRequest;
 class AppointmentRequest extends FormRequest
 {
     protected $appointment_rules = [
-        'user_id' => 'required|integer:appointments',
-        'schedule_id' => 'required|integer:appointments',
-        'schedule_day_id' => 'required|integer:appointments',
+        'doctor_id' => 'required|integer',
+        'patient_id' => 'required|integer',
+        'appointment_date' => 'required|date:format:Y-m-d',
         'schedule_day_time_id' => 'required|integer|unique:appointments',
     ];
 

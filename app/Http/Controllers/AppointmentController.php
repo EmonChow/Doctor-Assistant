@@ -33,7 +33,7 @@ class AppointmentController extends Controller
     {
         DB::beginTransaction();
         try {
-            $schedule = Schedule::where('user_id', $request->user_id)->with('scheduleDaysTimes')->get();
+            $schedule = Schedule::where('user_id', $request->doctor_id)->with('scheduleDaysTimes')->get();
             if (count($schedule) < 1) {
                 return response()->json(['message' => 'Schedule not found for the doctor'], 400);
             }
@@ -47,7 +47,6 @@ class AppointmentController extends Controller
             throw $e;
         }
     }
-
     /**
      * Display the specified resource.
      *
@@ -72,7 +71,7 @@ class AppointmentController extends Controller
     {
         DB::beginTransaction();
         try {
-            $schedule = Schedule::where('user_id', $request->user_id)->with('scheduleDaysTimes')->get();
+            $schedule = Schedule::where('user_id', $request->doctor_id)->with('scheduleDaysTimes')->get();
             if (count($schedule) < 1) {
                 return response()->json(['message' => 'Schedule not found for the doctor'], 400);
             }
