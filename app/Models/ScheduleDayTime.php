@@ -10,6 +10,7 @@ class ScheduleDayTime extends Model
     use HasFactory;
 
     protected $fillable = [
-        'time'
+        'time',
+        'schedule_day_id'
     ];
 }

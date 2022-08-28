@@ -20,13 +20,9 @@ class DepartmentController extends Controller
      */
     public function index(Request $request)
     {
-        $department_query = Department::withFilter(new DepartmentFilter, $request)
-            ->orderBy('id', 'DESC')
-            ->with('departmentExamination')
-            ->paginate($request->query('limit'));
+        $department_query = Department::withFilter(new DepartmentFilter, $request) ->orderBy('id', 'DESC')->paginate($request->query('limit')); 
         return response()->json($department_query);
     }
-
     /**
      * Store a newly created resource in storage.
      *

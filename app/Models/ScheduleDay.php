@@ -15,7 +15,8 @@ class ScheduleDay extends Model
         'day',
         'start_time',
         'end_time',
-        'time_slot'
+        'time_slot',
+        'schedule_id'
     ];
 
     public function times(): HasMany
