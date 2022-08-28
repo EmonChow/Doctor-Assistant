@@ -66,6 +66,7 @@ class AppointmentController extends Controller
      * @param \App\Http\Requests\UpdateAppointmentRequest $request
      * @param \App\Models\Appointment $appointment
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function update(AppointmentRequest $request, $id)
     {
@@ -84,7 +85,6 @@ class AppointmentController extends Controller
             DB::rollBack();
             throw $e;
         }
-        return response()->json(['message' => 'Something went wrong'], 400);
 
     }
 

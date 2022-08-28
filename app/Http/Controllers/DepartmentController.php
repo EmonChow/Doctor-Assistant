@@ -26,6 +26,7 @@ class DepartmentController extends Controller
             ->paginate($request->query('limit'));
         return response()->json($department_query);
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -37,21 +38,7 @@ class DepartmentController extends Controller
         DB::beginTransaction();
         try {
             $department = Department::create($request->only(['name', 'description']));
-            foreach ($request->department_examinations as $examinations) {
-                $department_examination = new DepartmentExamination();
-                $department_examination->fill($examinations);
-                $department_examination->department_id = $department->id;
-                $department_examination->save();
-                $examination_field = collect();
-                foreach ($examinations["examination_fields"] as $field) {
-                    $examination_field->push([
-                        'title' => $field["title"],
-                        'field_type' => $field["field_type"],
-                        'department_examination_id' => $department_examination->id
-                    ]);
-                }
-                DepartmentExaminationField::insert($examination_field->toArray());
-            }
+            $this->createDepartmentExamination($request, $department);
             DB::commit();
             return response()->json(['message' => 'Department has been created successfully']);
         } catch (\Exception $e) {
@@ -74,26 +61,20 @@ class DepartmentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\DepartmentRequest $request
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
-    public function update(DepartmentRequest $request, $id)
+    public function update(DepartmentRequest $request, int $id): \Illuminate\Http\JsonResponse
     {
         DB::beginTransaction();
         try {
             $department = Department::findOrFail($id);
             $department->fill($request->all());
             $department->save();
-            foreach ($request->department_examinations as $examinations) {
-                $department_examination = DepartmentExamination::where("department_id", $id)->get()->first();
-                $department_examination["name"] = $examinations["name"];
-                $department_examination->save();
-                foreach ($examinations["examination_fields"] as $field) {
-                    DepartmentExaminationField::where('department_examination_id', $department_examination->id)
-                    ->update(["title" => $field["title"], "field_type" => $field["field_type"]]);
-                }
-            }
+            // previous department related data will be delete
+            DepartmentExamination::where('department_id', $department->id)->delete();
+            $this->createDepartmentExamination($request, $department);
             DB::commit();
             return response()->json(['message' => 'Department has been updated successfully']);
         } catch (\Exception $e) {
@@ -101,6 +82,7 @@ class DepartmentController extends Controller
             throw $e;
         }
     }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -113,5 +95,26 @@ class DepartmentController extends Controller
             return response()->json(['message' => 'Department has been deleted successfully']);
         }
         return response()->json(['message' => 'Something went wrong'], 400);
+    }
+
+    private function createDepartmentExamination(Request $request, Department $department)
+    {
+        DB::transaction(function () use ($request, $department) {
+            foreach ($request->department_examinations as $examinations) {
+                $department_examination = new DepartmentExamination();
+                $department_examination->fill($examinations);
+                $department_examination->department_id = $department->id;
+                $department_examination->save();
+                $examination_field = collect();
+                foreach ($examinations["examination_fields"] as $field) {
+                    $examination_field->push([
+                        'title' => $field["title"],
+                        'field_type' => $field["field_type"],
+                        'department_examination_id' => $department_examination->id
+                    ]);
+                }
+                DepartmentExaminationField::insert($examination_field->toArray());
+            }
+        });
     }
 }

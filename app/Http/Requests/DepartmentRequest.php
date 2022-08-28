@@ -10,12 +10,13 @@ class DepartmentRequest extends FormRequest
     protected $department_rules = [
         'name' => 'required|string',
         'description' => 'required|string',
-        "department_examinations" => 'required|array',
+        "department_examinations" => 'sometimes|array|min:1',
         "department_examinations.*.name" => "required|string",
-        "department_examinations.*.examination_fields" => 'required|array',
+        "department_examinations.*.examination_fields" => 'sometimes|array|min:1',
         "department_examinations.*.examination_fields.*.title" => "required|string",
-        "department_examinations.*.examination_fields.*.field_type" => "required|string",
+        "department_examinations.*.examination_fields.*.field_type" => "required|string|in:Date,Text,Checkbox",
     ];
+
     /**
      * Determine if the user is authorized to make this request.
      *
