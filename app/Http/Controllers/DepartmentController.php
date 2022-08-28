@@ -86,11 +86,12 @@ class DepartmentController extends Controller
             $department->fill($request->all());
             $department->save();
             foreach ($request->department_examinations as $examinations) {
-                $department_examination = DepartmentExamination::where("department_id", $id) ->get()->first();
+                $department_examination = DepartmentExamination::where("department_id", $id)->get()->first();
                 $department_examination["name"] = $examinations["name"];
                 $department_examination->save();
                 foreach ($examinations["examination_fields"] as $field) {
-                    DepartmentExaminationField::where('department_examination_id', $department_examination->id)->update(["title" => $field["title"], "field_type" => $field["field_type"]]);
+                    DepartmentExaminationField::where('department_examination_id', $department_examination->id)
+                    ->update(["title" => $field["title"], "field_type" => $field["field_type"]]);
                 }
             }
             DB::commit();
