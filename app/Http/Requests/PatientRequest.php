@@ -7,13 +7,6 @@ use Illuminate\Foundation\Http\FormRequest;
 class PatientRequest extends FormRequest
 {
     protected $patient_rules = [
-        'title' => 'required|string|min:2|max:30',
-        'photo' => 'sometimes|string',
-        'name' => 'required|string|min:2|max:200',
-        'email' => 'required|email|unique:users',
-        'phone' => 'required|string|unique:users',
-        'address' => 'sometimes|string|min:5|max:200',
-        'password' => 'required|string|min:6|max:40',
         'height' => 'required|integer|',
         'weight' => 'required|integer|',
         'birth_date' => 'required|date:format:Y-m-d',

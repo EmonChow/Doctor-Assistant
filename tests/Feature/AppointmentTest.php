@@ -2,102 +2,99 @@
 
 namespace Tests\Feature;
 
-use App\Http\Controllers\DrugController;
-use App\Models\Drug;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class DrugTest extends TestCase
+class AppointmentTest extends TestCase
 {
-    /**
-     * A basic feature test create drug.
+           /**
+     * A basic feature test create apppoinment.
      *
      * @return void
      */
-    public function test_create_drug()
+    public function test_create_apppoinment()
     {
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
-
 
         $data = [
-            'trade_name' => "nmeddsswzi",
-            'generic_name' => "notssedd",
-            'additional_advice' => "test traddde",
-            'warning' => "tssssscc",
-            'side_effect' => "testssed"
+            "doctor_id" => 1,
+            "patient_id" => 1,
+            "appointment_date" => "2022/2/1",
+            "schedule_day_time_id" => 1
         ];
-        $this->postJson('api/drugs', $data)
+
+        $this->postJson('api/apppoinment', $data)
             ->assertStatus(200);
 
-        $this->assertDatabaseHas('drugs', $data);
+        $this->assertDatabaseHas('apppoinments', $data);
     }
 
     /**
-     * test update drug.
+     * test update apppoinment.
      *
      * @return void
      */
-    public function test_update_drug()
+    public function test_update_apppoinment()
     {
+        
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
         $data = [
-            'trade_name' =>"tradname",
-            'generic_name' =>"notsse",
-            'additional_advice' =>"testtrade",
-            'warning' =>"testtradedds",
-            'side_effect' =>"tesradedd"
+            "doctor_id" => 1,
+            "patient_id" => 1,
+            "appointment_date" => "2022/2/1",
+            "schedule_day_time_id" => 1
         ];
 
-        $this->json('PUT', 'api/drugs/1', $data)
+        $this->json('PUT', 'api/appointment/1', $data)
             ->assertStatus(200);
-        $this->assertDatabaseHas('drugs', $data);
+        $this->assertDatabaseHas('appointments', $data);
     }
 
     /**
-     * test get drug.
+     * test get appointment.
      *
      * @return void
      */
-    public function test_get_a_drug()
+    public function test_get_a_appointment()
     {
 
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
-        $this->json('GET', 'api/drugs/1')
+        $this->json('GET', 'api/appointment/1')
             ->assertStatus(200);
     }
 
     /**
-     * test get all drug.
+     * test get all appointment.
      *
      * @return void
      */
-    public function test_get_all_drug()
+    public function test_get_all_appointment()
     {
 
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
-        $this->json('GET', 'api/drugs')
+        $this->json('GET', 'api/appointment')
             ->assertStatus(200);
     }
     /**
-     * test delete drug.
+     * test delete appointment.
      *
      * @return void
      */
 
-    public function test_delete_drug()
+    public function test_delete_appointment()
     {
 
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
-        $this->json('DELETE', 'api/drugs/1')
+        $this->json('DELETE', 'api/appointment/1')
             ->assertStatus(200);
     }
 }

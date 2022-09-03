@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->float('height');
             $table->float('weight');
-            $table->date('birth_date');
+            $table->date('birth_date'); 
             $table->timestamps();
         });
     }

@@ -2,102 +2,96 @@
 
 namespace Tests\Feature;
 
-use App\Http\Controllers\DrugController;
-use App\Models\Drug;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class DrugTest extends TestCase
+class DrugTypeTest extends TestCase
 {
-    /**
-     * A basic feature test create drug.
+      /**
+     * A basic feature test create drug type.
      *
      * @return void
      */
-    public function test_create_drug()
+    public function test_create_drug_type()
     {
+       
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
 
         $data = [
-            'trade_name' => "nmeddsswzi",
-            'generic_name' => "notssedd",
-            'additional_advice' => "test traddde",
-            'warning' => "tssssscc",
-            'side_effect' => "testssed"
+                'type' => "teedsdes",
+                'status' => false
         ];
-        $this->postJson('api/drugs', $data)
+
+        $this->postJson('api/drug-type', $data)
             ->assertStatus(200);
 
-        $this->assertDatabaseHas('drugs', $data);
+        $this->assertDatabaseHas('drug_types', $data);
     }
 
     /**
-     * test update drug.
+     * test update drug type.
      *
      * @return void
      */
-    public function test_update_drug()
+    public function test_update_drug_type()
     {
+        
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
         $data = [
-            'trade_name' =>"tradname",
-            'generic_name' =>"notsse",
-            'additional_advice' =>"testtrade",
-            'warning' =>"testtradedds",
-            'side_effect' =>"tesradedd"
-        ];
+            'type' => "tesdose",
+            'status' => true
+    ];
 
-        $this->json('PUT', 'api/drugs/1', $data)
+        $this->json('PUT', 'api/drug-type', $data)
             ->assertStatus(200);
-        $this->assertDatabaseHas('drugs', $data);
+        $this->assertDatabaseHas('drug_types', $data);
     }
 
     /**
-     * test get drug.
+     * test get drug type.
      *
      * @return void
      */
-    public function test_get_a_drug()
+    public function test_get_a_drug_type()
     {
 
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
-        $this->json('GET', 'api/drugs/1')
+        $this->json('GET', 'api/drug-type')
             ->assertStatus(200);
     }
 
     /**
-     * test get all drug.
+     * test get all drug type.
      *
      * @return void
      */
-    public function test_get_all_drug()
+    public function test_get_all_drug_type()
     {
 
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
-        $this->json('GET', 'api/drugs')
+        $this->json('GET', 'api/drug-type')
             ->assertStatus(200);
     }
     /**
-     * test delete drug.
+     * test delete drug type.
      *
      * @return void
      */
 
-    public function test_delete_drug()
+    public function test_delete_drug_type()
     {
-
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
-        $this->json('DELETE', 'api/drugs/1')
+        $this->json('DELETE', 'api/drug-type')
             ->assertStatus(200);
     }
 }
