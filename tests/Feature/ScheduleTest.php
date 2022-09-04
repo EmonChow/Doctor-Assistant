@@ -53,20 +53,36 @@ class ScheduleTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
+        // $data = array(
+        //     "title" => "Emonff",
+        //     "address" => "test address d",
+        //     "contact_person" => "test dcontact",
+        //     "phone" => "015382141",
+        //     "email" => "emo3n011e@gmail.com",
+        //     "days" => [array(
+        //         "day" => "wednesday",
+        //         "start_time" => "10:00",
+        //         "end_time" => "12:00",
+        //         "time_slot" => "20",
+
+        //     )]
+        // );
         $data = array(
             "title" => "Emonff",
             "address" => "test address d",
             "contact_person" => "test dcontact",
             "phone" => "015382141",
             "email" => "emo3n011e@gmail.com",
-            "days" => [array(
-                "day" => "wednesday",
-                "start_time" => "10:00",
-                "end_time" => "12:00",
-                "time_slot" => "20",
-
-            )]
+            "days" => [
+                [
+                    "day" => "Monday",
+                    "start_time" => "10:00",
+                    "end_time" => "11:00",
+                    "time_slot" => 10
+                ]
+            ]
         );
+        
         $schedule = Schedule::first();
         $this->putJson("api/schedules/{$schedule->id}", $data)
             ->assertStatus(200);
