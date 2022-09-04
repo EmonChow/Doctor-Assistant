@@ -19,10 +19,10 @@ class AppointmentTest extends TestCase
         $response->assertStatus(200);
 
         $data = [
-            "doctor_id" => 1,
-            "patient_id" => 1,
+            "doctor_id" => 3,
+            "patient_id" => 3,
             "appointment_date" => "2022/2/1",
-            "schedule_day_time_id" => 1
+            "schedule_day_time_id" => 3
         ];
 
         $this->postJson('api/apppoinment', $data)
@@ -42,13 +42,13 @@ class AppointmentTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
         $data = [
-            "doctor_id" => 1,
-            "patient_id" => 1,
+            "doctor_id" => 2,
+            "patient_id" => 2,
             "appointment_date" => "2022/2/1",
-            "schedule_day_time_id" => 1
+            "schedule_day_time_id" => 2
         ];
 
-        $this->json('PUT', 'api/appointment/1', $data)
+        $this->json('PUT', 'api/appointment/3', $data)
             ->assertStatus(200);
         $this->assertDatabaseHas('appointments', $data);
     }
@@ -64,7 +64,7 @@ class AppointmentTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
-        $this->json('GET', 'api/appointment/1')
+        $this->json('GET', 'api/appointment/3')
             ->assertStatus(200);
     }
 
@@ -94,7 +94,7 @@ class AppointmentTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
-        $this->json('DELETE', 'api/appointment/1')
+        $this->json('DELETE', 'api/appointment/3')
             ->assertStatus(200);
     }
 }

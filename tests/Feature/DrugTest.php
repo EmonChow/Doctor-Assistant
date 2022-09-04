@@ -22,7 +22,7 @@ class DrugTest extends TestCase
 
 
         $data = [
-            'trade_name' => "nmeddsswzi",
+            'trade_name' => "nmesswzwwwwi",
             'generic_name' => "notssedd",
             'additional_advice' => "test traddde",
             'warning' => "tssssscc",
@@ -44,14 +44,14 @@ class DrugTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
         $data = [
-            'trade_name' =>"tradname",
+            'trade_name' =>"traeedname",
             'generic_name' =>"notsse",
             'additional_advice' =>"testtrade",
             'warning' =>"testtradedds",
             'side_effect' =>"tesradedd"
         ];
 
-        $this->json('PUT', 'api/drugs/1', $data)
+        $this->json('PUT', 'api/drugs/3', $data)
             ->assertStatus(200);
         $this->assertDatabaseHas('drugs', $data);
     }
@@ -67,7 +67,7 @@ class DrugTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
-        $this->json('GET', 'api/drugs/1')
+        $this->json('GET', 'api/drugs/3')
             ->assertStatus(200);
     }
 
@@ -97,7 +97,7 @@ class DrugTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
-        $this->json('DELETE', 'api/drugs/1')
+        $this->json('DELETE', 'api/drugs/3')
             ->assertStatus(200);
     }
 }

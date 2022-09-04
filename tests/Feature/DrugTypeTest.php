@@ -21,7 +21,7 @@ class DrugTypeTest extends TestCase
 
 
         $data = [
-                'type' => "teedsdes",
+                'type' => "teeses",
                 'status' => false
         ];
 
@@ -46,7 +46,7 @@ class DrugTypeTest extends TestCase
             'status' => true
     ];
 
-        $this->json('PUT', 'api/drug-type', $data)
+        $this->json('PUT', 'api/drug-type/3', $data)
             ->assertStatus(200);
         $this->assertDatabaseHas('drug_types', $data);
     }
@@ -62,7 +62,7 @@ class DrugTypeTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
-        $this->json('GET', 'api/drug-type')
+        $this->json('GET', 'api/drug-type/3')
             ->assertStatus(200);
     }
 
@@ -91,7 +91,7 @@ class DrugTypeTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
-        $this->json('DELETE', 'api/drug-type')
+        $this->json('DELETE', 'api/drug-type/3')
             ->assertStatus(200);
     }
 }

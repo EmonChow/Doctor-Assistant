@@ -21,7 +21,7 @@ class DoseTest extends TestCase
 
 
         $data = [
-                'dose' => "tesddose",
+                'dose' => "tesddode",
                 'status' => false
         ];
 
@@ -46,7 +46,7 @@ class DoseTest extends TestCase
             'status' => true
     ];
 
-        $this->json('PUT', 'api/doses/1', $data)
+        $this->json('PUT', 'api/doses/3', $data)
             ->assertStatus(200);
         $this->assertDatabaseHas('doses', $data);
     }
@@ -62,7 +62,7 @@ class DoseTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
-        $this->json('GET', 'api/doses/1')
+        $this->json('GET', 'api/doses/3')
             ->assertStatus(200);
     }
 
@@ -92,7 +92,7 @@ class DoseTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
-        $this->json('DELETE', 'api/doses/1')
+        $this->json('DELETE', 'api/doses/3')
             ->assertStatus(200);
     }
 }
