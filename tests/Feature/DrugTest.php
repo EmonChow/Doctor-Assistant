@@ -31,8 +31,6 @@ class DrugTest extends TestCase
         ];
         $this->postJson('api/drugs', $data)
             ->assertStatus(200);
-
-        
     }
 
     /**
@@ -45,16 +43,15 @@ class DrugTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
         $data = [
-            'trade_name' =>"traedname",
-            'generic_name' =>"notsse",
-            'additional_advice' =>"testtrade",
-            'warning' =>"testtradedds",
-            'side_effect' =>"tesradedd"
+            'trade_name' => "traedname",
+            'generic_name' => "notsse",
+            'additional_advice' => "testtrade",
+            'warning' => "testtradedds",
+            'side_effect' => "tesradedd"
         ];
         $drug = Drug::first();
         $this->putJson("api/drugs/{$drug->id}", $data)
             ->assertStatus(200);
-       
     }
 
     /**
@@ -85,7 +82,7 @@ class DrugTest extends TestCase
         $response->assertStatus(200);
 
         $this->getJson('api/drugs')
-             ->assertStatus(200);
+            ->assertStatus(200);
     }
     /**
      * test delete drug.
@@ -97,7 +94,7 @@ class DrugTest extends TestCase
     {
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
-          $drug = Drug::first();
+        $drug = Drug::first();
         $this->deleteJson("api/drugs/{$drug->id}")
             ->assertStatus(200);
     }

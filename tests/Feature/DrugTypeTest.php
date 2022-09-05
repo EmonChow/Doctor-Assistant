@@ -10,27 +10,22 @@ use Tests\TestCase;
 
 class DrugTypeTest extends TestCase
 {
-      /**
+    /**
      * A basic feature test create drug type.
      *
      * @return void
      */
     public function test_create_drug_type()
     {
-       
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
-
-
         $data = [
-                'type' => "teeses",
-                'status' => false
+            'type' => "teeses",
+            'status' => false
         ];
 
         $this->postJson('api/drug-type', $data)
             ->assertStatus(200);
-
-        
     }
 
     /**
@@ -40,17 +35,16 @@ class DrugTypeTest extends TestCase
      */
     public function test_update_drug_type()
     {
-        
+
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
         $data = [
             'type' => "tesdose",
             'status' => true
-    ];
-        $drug_type =DrugTypes::first();
+        ];
+        $drug_type = DrugTypes::first();
         $this->putjson("api/drug-type/{$drug_type->id}", $data)
             ->assertStatus(200);
-        
     }
 
     /**
@@ -64,9 +58,9 @@ class DrugTypeTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
-        $drug_type =DrugTypes::first();
+        $drug_type = DrugTypes::first();
         $this->getjson("api/drug-type/{$drug_type->id}")
-             ->assertStatus(200);
+            ->assertStatus(200);
     }
 
     /**
@@ -81,7 +75,7 @@ class DrugTypeTest extends TestCase
         $response->assertStatus(200);
 
         $this->getJson('api/drug-type')
-        ->assertStatus(200);
+            ->assertStatus(200);
     }
     /**
      * test delete drug type.
@@ -93,7 +87,7 @@ class DrugTypeTest extends TestCase
     {
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
-          $drug_type =DrugTypes::first();
+        $drug_type = DrugTypes::first();
         $this->deleteJson("api/drug-type/{$drug_type->id}")
             ->assertStatus(200);
     }

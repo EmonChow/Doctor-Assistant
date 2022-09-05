@@ -10,7 +10,7 @@ use App\Models\Appointment;
 
 class AppointmentTest extends TestCase
 {
-           /**
+    /**
      * A basic feature test create apppoinment.
      *
      * @return void
@@ -21,16 +21,14 @@ class AppointmentTest extends TestCase
         $response->assertStatus(200);
 
         $data = [
-            "doctor_id" =>2,
-            "patient_id" =>2,
+            "doctor_id" => 10,
+            "patient_id" => 20,
             "appointment_date" => "2022/2/1",
-            "schedule_day_time_id" =>8
+            "schedule_day_time_id" =>269
         ];
 
         $this->postJson('api/apppoinment', $data)
             ->assertStatus(200);
-
-        
     }
 
     /**
@@ -40,19 +38,18 @@ class AppointmentTest extends TestCase
      */
     public function test_update_apppoinment()
     {
-        
+
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
         $data = [
-            "doctor_id" => 2,
-            "patient_id" => 2,
+            "doctor_id" => 10,
+            "patient_id" =>20,
             "appointment_date" => "2022/2/6",
-            "schedule_day_time_id" =>6
+            "schedule_day_time_id" =>269
         ];
         $appointment = Appointment::first();
         $this->putJson("api/appointment/{$appointment->id}", $data)
             ->assertStatus(200);
-        
     }
 
     /**
@@ -83,7 +80,7 @@ class AppointmentTest extends TestCase
         $response->assertStatus(200);
 
         $this->getJson('api/appointment')
-        ->assertStatus(200);
+            ->assertStatus(200);
     }
     /**
      * test delete appointment.

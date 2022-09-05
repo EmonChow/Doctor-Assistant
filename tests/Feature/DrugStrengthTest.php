@@ -9,23 +9,22 @@ use Tests\TestCase;
 
 class DrugStrengthTest extends TestCase
 {
-      /**
+    /**
      * A basic feature test create drug strength.
      *
      * @return void
      */
     public function test_create_drug_strength()
     {
-       
+
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
         $data = [
-                'strength' => "teettsde",
-                'status' => false
+            'strength' => "teettsde",
+            'status' => false
         ];
         $this->postJson('api/drug-strength', $data)
             ->assertStatus(200);
-       
     }
 
     /**
@@ -35,13 +34,13 @@ class DrugStrengthTest extends TestCase
      */
     public function test_update_drug_strength()
     {
-        
+
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
         $data = [
             'strength' => "tesddose",
             'status' => true
-    ];
+        ];
         $drug_strength = DrugStrength::first();
         $this->putJson("api/drug-strength/{$drug_strength->id}", $data)
             ->assertStatus(200);
@@ -71,7 +70,7 @@ class DrugStrengthTest extends TestCase
     {
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
-        $this->json('GET', 'api/drug-strength')
+        $this->getJson('api/drug-strength')
             ->assertStatus(200);
     }
     /**

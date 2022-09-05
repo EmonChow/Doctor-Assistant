@@ -87,7 +87,6 @@ class DepartmentTest extends TestCase
 
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
-
         $department = Department::first();
         $this->getJson("api/department/{$department->id}")
              ->assertStatus(200);
@@ -125,7 +124,7 @@ class DepartmentTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
         $department = Department::first();
-        $this->deleteJson("api/doctor/{$department->id}")
+        $this->deleteJson("api/department/{$department->id}")
             ->assertStatus(200);
     }
 }

@@ -10,42 +10,37 @@ use Tests\TestCase;
 
 class DoctorTest extends TestCase
 {
-   /**
+    /**
      * A basic feature test create doctor.
      *
      * @return void
      */
     public function test_create_doctor()
     {
-       
+
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
-
-
-        
         $data = array(
             "name" => "Eyyrrn",
-            "photo"=> "Emon",
-            "email"=> "erttr21@gmail.com",
-            "phone"=>"0175779166",
-            "password"=>"emonury",
-            "password_confirmation"=>"emonury",
-             "department_id"=> "2",
-            "title"=>"tes6666tle",
-             "description"=>"somet666string",
-            "degrees"=> [
-               [
-                "title" => "Mgggonday",
-                "description" => "fffffff",
-                "doctor_id" =>"1" 
-               ]
+            "photo" => "Emon",
+            "email" => "etrrrr21@gmail.com",
+            "phone" => "0175779166",
+            "password" => "emonury",
+            "password_confirmation" => "emonury",
+            "department_id" => "15",
+            "title" => "tes6666tle",
+            "description" => "somet666string",
+            "degrees" => [
+                [
+                    "title" => "Mgggonday",
+                    "description" => "fffffff",
+                    "doctor_id" =>"10"
+                ]
             ]
-          );
+        );
 
         $this->postJson('api/doctor', $data)
             ->assertStatus(200);
-
-       
     }
 
     /**
@@ -55,32 +50,31 @@ class DoctorTest extends TestCase
      */
     public function test_update_doctor()
     {
-        
+
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
-       
+
         $data = array(
             "name" => "Eyyrrn",
-            "photo"=> "Emon",
-            "email"=> "err21@gmail.com",
-            "phone"=>"0175779166",
-            "password"=>"emonury",
-            "password_confirmation"=>"emonury",
-             "department_id"=> "1",
-            "title"=>"tes6666tle",
-             "description"=>"somet666string",
-            "degrees"=> [
-               [
-                "title" => "Mgggonday",
-                "description" => "fffffff",
-                "doctor_id" =>"1" 
-               ]
+            "photo" => "Emon",
+            "email" => "errtt21@gmail.com",
+            "phone" => "0175779166",
+            "password" => "emonury",
+            "password_confirmation" => "emonury",
+            "department_id" => "15",
+            "title" => "tes6666tle",
+            "description" => "somet666string",
+            "degrees" => [
+                [
+                    "title" => "Mgggonday",
+                    "description" => "fffffff",
+                    "doctor_id" =>"10"
+                ]
             ]
-          );
+        );
         $doctor = Doctor::first();
         $this->putJson("api/doctor/{$doctor->id}", $data)
             ->assertStatus(200);
-       
     }
 
     /**
@@ -93,7 +87,7 @@ class DoctorTest extends TestCase
 
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
-        
+
         $doctor = Doctor::first();
         $this->getJson("api/doctor/{$doctor->id}")
             ->assertStatus(200);
@@ -111,7 +105,7 @@ class DoctorTest extends TestCase
         $response->assertStatus(200);
 
         $this->getJson('api/doctor')
-        ->assertStatus(200);
+            ->assertStatus(200);
     }
     /**
      * test delete doctor.

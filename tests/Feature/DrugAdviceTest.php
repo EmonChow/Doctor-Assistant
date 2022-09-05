@@ -9,27 +9,21 @@ use Tests\TestCase;
 
 class DrugAdviceTest extends TestCase
 {
-     /**
+    /**
      * A basic feature test create drug advice.
      *
      * @return void
      */
     public function test_create_drug_advice()
     {
-       
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
-
-
         $data = [
-                'advice' => "tesduuose",
-                'status' => false
+            'advice' => "tesduuose",
+            'status' => false
         ];
-
         $this->postJson('api/drug-advices', $data)
             ->assertStatus(200);
-
-        $this->assertDatabaseHas('drug_advice', $data);
     }
 
     /**
@@ -39,17 +33,16 @@ class DrugAdviceTest extends TestCase
      */
     public function test_update_drug_advice()
     {
-        
+
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
         $data = [
             'advice' => "tesddosse",
             'status' => true
-    ];
-
-        $this->json('PUT', 'api/drug-advices/3', $data)
+        ];
+        $drug_advice = DrugAdvice::first();
+        $this->putJson("api/drug-advices/{$drug_advice->id}", $data)
             ->assertStatus(200);
-        $this->assertDatabaseHas('drug_advice', $data);
     }
 
     /**
@@ -62,8 +55,8 @@ class DrugAdviceTest extends TestCase
 
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
-
-        $this->json('GET', 'api/drug-advices/3')
+        $drug_advice = DrugAdvice::first();
+        $this->getJson("api/drug-advices/{$drug_advice->id}")
             ->assertStatus(200);
     }
 
@@ -77,8 +70,7 @@ class DrugAdviceTest extends TestCase
 
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
-
-        $this->json('GET', 'api/drug-advices')
+        $this->getJson("api/drug-advices")
             ->assertStatus(200);
     }
     /**
@@ -93,7 +85,7 @@ class DrugAdviceTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
         $drug_advice = DrugAdvice::first();
-        $this->deleteJson("api/drug-strength/{$drug_advice->id}")
+        $this->deleteJson("api/drug-advices/{$drug_advice->id}")
             ->assertStatus(200);
     }
 }

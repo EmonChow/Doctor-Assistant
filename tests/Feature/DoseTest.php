@@ -9,27 +9,23 @@ use App\Models\Dose;
 
 class DoseTest extends TestCase
 {
-   /**
+    /**
      * A basic feature test create dose.
      *
      * @return void
      */
     public function test_create_dose()
     {
-       
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
-
         $data = [
-                'dose' => "tesddode",
-                'status' => false
+            'dose' => "tesddode",
+            'status' => false
         ];
 
         $this->postJson('api/doses', $data)
             ->assertStatus(200);
-
-       
     }
 
     /**
@@ -39,17 +35,16 @@ class DoseTest extends TestCase
      */
     public function test_update_dose()
     {
-        
+
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
         $data = [
             'dose' => "testdoeeee",
             'status' => true
-    ];
-        $dose =Dose::first();
+        ];
+        $dose = Dose::first();
         $this->putJson("api/doses/{$dose->id}", $data)
             ->assertStatus(200);
-       
     }
 
     /**
@@ -62,7 +57,7 @@ class DoseTest extends TestCase
 
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
-        $dose =Dose::first();
+        $dose = Dose::first();
         $this->getJson("api/doses/{$dose->id}")
             ->assertStatus(200);
     }
@@ -88,10 +83,10 @@ class DoseTest extends TestCase
      */
 
     public function test_delete_dose()
-    { 
+    {
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
-        $dose =Dose::first();
+        $dose = Dose::first();
         $this->deleteJson("api/doses/{$dose->id}")
             ->assertStatus(200);
     }

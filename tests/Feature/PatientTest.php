@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class PatientTest extends TestCase
 {
-       /**
+    /**
      * A basic feature test create patient.
      *
      * @return void
@@ -28,7 +28,6 @@ class PatientTest extends TestCase
 
         $this->postJson('api/patient', $data)
             ->assertStatus(200);
-
     }
 
     /**
@@ -38,7 +37,7 @@ class PatientTest extends TestCase
      */
     public function test_update_patient()
     {
-        
+
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
         $data = [
@@ -49,7 +48,6 @@ class PatientTest extends TestCase
         $patient = Patient::first();
         $this->putJson("api/patient/{$patient->id}", $data)
             ->assertStatus(200);
-      
     }
 
     /**
@@ -80,7 +78,7 @@ class PatientTest extends TestCase
         $response->assertStatus(200);
 
         $this->getJson('api/patient')
-        ->assertStatus(200);
+            ->assertStatus(200);
     }
     /**
      * test delete patient.
