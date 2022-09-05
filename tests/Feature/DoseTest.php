@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\Dose;
 
 class DoseTest extends TestCase
 {
@@ -28,7 +29,7 @@ class DoseTest extends TestCase
         $this->postJson('api/doses', $data)
             ->assertStatus(200);
 
-        $this->assertDatabaseHas('doses', $data);
+       
     }
 
     /**
@@ -45,10 +46,10 @@ class DoseTest extends TestCase
             'dose' => "testdoeeee",
             'status' => true
     ];
-
-        $this->json('PUT', 'api/doses/3', $data)
+        $dose =Dose::first();
+        $this->putJson("api/doses/{$dose->id}", $data)
             ->assertStatus(200);
-        $this->assertDatabaseHas('doses', $data);
+       
     }
 
     /**
@@ -61,8 +62,8 @@ class DoseTest extends TestCase
 
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
-
-        $this->json('GET', 'api/doses/3')
+        $dose =Dose::first();
+        $this->getJson("api/doses/{$dose->id}")
             ->assertStatus(200);
     }
 
@@ -77,7 +78,7 @@ class DoseTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
-        $this->json('GET', 'api/doses')
+        $this->getJson('api/doses')
             ->assertStatus(200);
     }
     /**
@@ -87,12 +88,11 @@ class DoseTest extends TestCase
      */
 
     public function test_delete_dose()
-    {
-
-        // $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
-        // $response->assertStatus(200);
-
-        // $this->json('DELETE', 'api/doses/3')
-        //     ->assertStatus(200);
+    { 
+        $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
+        $response->assertStatus(200);
+        $dose =Dose::first();
+        $this->deleteJson("api/doses/{$dose->id}")
+            ->assertStatus(200);
     }
 }

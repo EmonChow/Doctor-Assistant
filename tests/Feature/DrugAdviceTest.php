@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\DrugAdvice;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -89,10 +90,10 @@ class DrugAdviceTest extends TestCase
     public function test_delete_drug_advice()
     {
 
-        // $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
-        // $response->assertStatus(200);
-
-        // $this->json('DELETE', 'api/drug-advices/3')
-        //     ->assertStatus(200);
+        $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
+        $response->assertStatus(200);
+        $drug_advice = DrugAdvice::first();
+        $this->deleteJson("api/drug-strength/{$drug_advice->id}")
+            ->assertStatus(200);
     }
 }

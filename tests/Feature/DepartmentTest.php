@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Models\Department;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
 class DepartmentTest extends TestCase
@@ -36,11 +38,11 @@ class DepartmentTest extends TestCase
                ]
             ]
           );
-
+       
         $this->postJson('api/department', $data)
             ->assertStatus(200);
 
-        $this->assertDatabaseHas('departments', $data);
+        
     }
 
     /**
@@ -69,10 +71,10 @@ class DepartmentTest extends TestCase
                ]
             ]
           );
-
-        $this->json('PUT', 'api/department/1', $data)
+        $department = Department::first();
+        $this->putJson("api/department/{$department->id}", $data)
             ->assertStatus(200);
-        $this->assertDatabaseHas('doses', $data);
+       
     }
 
     /**
@@ -86,8 +88,10 @@ class DepartmentTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
-        $this->json('GET', 'api/department/3')
-            ->assertStatus(200);
+        $department = Department::first();
+        $this->getJson("api/department/{$department->id}")
+             ->assertStatus(200);
+      
     }
 
     /**
@@ -101,8 +105,14 @@ class DepartmentTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
-        $this->json('GET', 'api/department')
-            ->assertStatus(200);
+        $this->getJson('api/department')->assertStatus(200)->assertJson(fn(AssertableJson $json) => $json->hasAll([
+            'data', 'current_page', 'first_page_url', 'from', 'last_page', 'last_page_url',
+            'links', 'next_page_url', 'path', 'per_page', 'prev_page_url', 'to', 'total'
+        ])->whereAllType([
+            'data.0.id' => ['string', 'integer'],
+            'data.0.name' => 'string',
+            'data.0.description' => 'string',
+        ]));
     }
     /**
      * test delete department.
@@ -112,11 +122,10 @@ class DepartmentTest extends TestCase
 
     public function test_delete_department()
     {
-
-        // $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
-        // $response->assertStatus(200);
-
-        // $this->json('DELETE', 'api/department/1')
-        //     ->assertStatus(200);
+        $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
+        $response->assertStatus(200);
+        $department = Department::first();
+        $this->deleteJson("api/doctor/{$department->id}")
+            ->assertStatus(200);
     }
 }

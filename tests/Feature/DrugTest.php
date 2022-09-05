@@ -6,6 +6,7 @@ use App\Http\Controllers\DrugController;
 use App\Models\Drug;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
 class DrugTest extends TestCase
@@ -22,7 +23,7 @@ class DrugTest extends TestCase
 
 
         $data = [
-            'trade_name' => "nmesswzwwwwi",
+            'trade_name' => "nsswwwwwid",
             'generic_name' => "notssedd",
             'additional_advice' => "test traddde",
             'warning' => "tssssscc",
@@ -31,7 +32,7 @@ class DrugTest extends TestCase
         $this->postJson('api/drugs', $data)
             ->assertStatus(200);
 
-        $this->assertDatabaseHas('drugs', $data);
+        
     }
 
     /**
@@ -44,16 +45,16 @@ class DrugTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
         $data = [
-            'trade_name' =>"traeedname",
+            'trade_name' =>"traedname",
             'generic_name' =>"notsse",
             'additional_advice' =>"testtrade",
             'warning' =>"testtradedds",
             'side_effect' =>"tesradedd"
         ];
-
-        $this->json('PUT', 'api/drugs/3', $data)
+        $drug = Drug::first();
+        $this->putJson("api/drugs/{$drug->id}", $data)
             ->assertStatus(200);
-        $this->assertDatabaseHas('drugs', $data);
+       
     }
 
     /**
@@ -67,7 +68,8 @@ class DrugTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
-        $this->json('GET', 'api/drugs/3')
+        $drug = Drug::first();
+        $this->getJson("api/drugs/{$drug->id}")
             ->assertStatus(200);
     }
 
@@ -82,8 +84,8 @@ class DrugTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
-        $this->json('GET', 'api/drugs')
-            ->assertStatus(200);
+        $this->getJson('api/drugs')
+             ->assertStatus(200);
     }
     /**
      * test delete drug.
@@ -93,11 +95,10 @@ class DrugTest extends TestCase
 
     public function test_delete_drug()
     {
-
-        // $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
-        // $response->assertStatus(200);
-
-        // $this->json('DELETE', 'api/drugs/3')
-        //     ->assertStatus(200);
+        $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
+        $response->assertStatus(200);
+          $drug = Drug::first();
+        $this->deleteJson("api/drugs/{$drug->id}")
+            ->assertStatus(200);
     }
 }

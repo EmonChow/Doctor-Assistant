@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Models\Patient;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
 class PatientTest extends TestCase
@@ -27,7 +29,6 @@ class PatientTest extends TestCase
         $this->postJson('api/patient', $data)
             ->assertStatus(200);
 
-        $this->assertDatabaseHas('patients', $data);
     }
 
     /**
@@ -45,10 +46,10 @@ class PatientTest extends TestCase
             "weight" => 56,
             "birth_date" => "2022/2/1"
         ];
-
-        $this->json('PUT', 'api/patient/3', $data)
+        $patient = Patient::first();
+        $this->putJson("api/patient/{$patient->id}", $data)
             ->assertStatus(200);
-        $this->assertDatabaseHas('patients', $data);
+      
     }
 
     /**
@@ -62,7 +63,8 @@ class PatientTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
-        $this->json('GET', 'api/patient/3')
+        $patient = Patient::first();
+        $this->getJson("api/patient/{$patient->id}")
             ->assertStatus(200);
     }
 
@@ -77,8 +79,8 @@ class PatientTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
-        $this->json('GET', 'api/patient')
-            ->assertStatus(200);
+        $this->getJson('api/patient')
+        ->assertStatus(200);
     }
     /**
      * test delete patient.
@@ -88,11 +90,10 @@ class PatientTest extends TestCase
 
     public function test_delete_patient()
     {
-
-        // $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
-        // $response->assertStatus(200);
-
-        // $this->json('DELETE', 'api/patient/3')
-        //     ->assertStatus(200);
+        $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
+        $response->assertStatus(200);
+        $patient = Patient::first();
+        $this->deleteJson("api/patient/{$patient->id}")
+            ->assertStatus(200);
     }
 }

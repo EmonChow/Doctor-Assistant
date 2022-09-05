@@ -136,11 +136,11 @@ class ScheduleTest extends TestCase
     public function test_delete_schedules()
     {
 
-//        $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
-//        $response->assertStatus(200);
-//
-//        $this->deleteJson('api/schedules/6')
-//            ->assertStatus(200);
+       $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
+       $response->assertStatus(200);
+       $schedule = Schedule::first();
+       $this->deleteJson("api/schedules/{$schedule->id}")
+           ->assertStatus(200);
     }
 
 }

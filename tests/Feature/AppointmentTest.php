@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Illuminate\Testing\Fluent\AssertableJson;
+use App\Models\Appointment;
 
 class AppointmentTest extends TestCase
 {
@@ -19,16 +21,16 @@ class AppointmentTest extends TestCase
         $response->assertStatus(200);
 
         $data = [
-            "doctor_id" => 3,
-            "patient_id" => 3,
+            "doctor_id" =>2,
+            "patient_id" =>2,
             "appointment_date" => "2022/2/1",
-            "schedule_day_time_id" => 3
+            "schedule_day_time_id" =>8
         ];
 
         $this->postJson('api/apppoinment', $data)
             ->assertStatus(200);
 
-        $this->assertDatabaseHas('apppoinments', $data);
+        
     }
 
     /**
@@ -44,13 +46,13 @@ class AppointmentTest extends TestCase
         $data = [
             "doctor_id" => 2,
             "patient_id" => 2,
-            "appointment_date" => "2022/2/1",
-            "schedule_day_time_id" => 2
+            "appointment_date" => "2022/2/6",
+            "schedule_day_time_id" =>6
         ];
-
-        $this->json('PUT', 'api/appointment/3', $data)
+        $appointment = Appointment::first();
+        $this->putJson("api/appointment/{$appointment->id}", $data)
             ->assertStatus(200);
-        $this->assertDatabaseHas('appointments', $data);
+        
     }
 
     /**
@@ -64,7 +66,8 @@ class AppointmentTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
-        $this->json('GET', 'api/appointment/3')
+        $appointment = Appointment::first();
+        $this->getJson("api/appointment/{$appointment->id}")
             ->assertStatus(200);
     }
 
@@ -79,8 +82,8 @@ class AppointmentTest extends TestCase
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
 
-        $this->json('GET', 'api/appointment')
-            ->assertStatus(200);
+        $this->getJson('api/appointment')
+        ->assertStatus(200);
     }
     /**
      * test delete appointment.
@@ -91,10 +94,10 @@ class AppointmentTest extends TestCase
     public function test_delete_appointment()
     {
 
-        // $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
-        // $response->assertStatus(200);
-
-        // $this->json('DELETE', 'api/appointment/3')
-        //     ->assertStatus(200);
+        $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
+        $response->assertStatus(200);
+        $appointment = Appointment::first();
+        $this->deleteJson("api/appointment/{$appointment->id}")
+            ->assertStatus(200);
     }
 }
