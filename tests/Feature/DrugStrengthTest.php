@@ -19,17 +19,13 @@ class DrugStrengthTest extends TestCase
        
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
-
-
         $data = [
                 'strength' => "teettsde",
                 'status' => false
         ];
-
         $this->postJson('api/drug-strength', $data)
             ->assertStatus(200);
-
-        $this->assertDatabaseHas('drug_strengths', $data);
+       
     }
 
     /**
@@ -46,10 +42,9 @@ class DrugStrengthTest extends TestCase
             'strength' => "tesddose",
             'status' => true
     ];
-
-        $this->json('PUT', 'api/drug-strength/3', $data)
+        $drug_strength = DrugStrength::first();
+        $this->putJson("api/drug-strength/{$drug_strength->id}", $data)
             ->assertStatus(200);
-        $this->assertDatabaseHas('drug_strengths', $data);
     }
 
     /**
@@ -62,8 +57,8 @@ class DrugStrengthTest extends TestCase
 
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
-
-        $this->json('GET', 'api/drug-strength/3')
+        $drug_strength = DrugStrength::first();
+        $this->getJson("api/drug-strength/{$drug_strength->id}")
             ->assertStatus(200);
     }
 
@@ -74,10 +69,8 @@ class DrugStrengthTest extends TestCase
      */
     public function test_get_all_drug_strength()
     {
-
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
-
         $this->json('GET', 'api/drug-strength')
             ->assertStatus(200);
     }

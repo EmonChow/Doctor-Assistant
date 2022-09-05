@@ -93,7 +93,6 @@ class AppointmentTest extends TestCase
 
     public function test_delete_appointment()
     {
-
         $response = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => 'password']);
         $response->assertStatus(200);
         $appointment = Appointment::first();
